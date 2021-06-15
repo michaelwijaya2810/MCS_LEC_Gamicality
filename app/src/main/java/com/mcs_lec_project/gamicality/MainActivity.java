@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,16 +25,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = new Intent();
         if(item.getItemId() == R.id.action_profile){
             return true;
         }else if(item.getItemId() == R.id.menu_home){
-            return true;
+            intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent);
         }else if(item.getItemId() == R.id.menu_game_list){
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
-            return true;
+            intent = new Intent(MainActivity.this, BookmarkActivity.class);
+            startActivity(intent);
         }else if(item.getItemId() == R.id.menu_notif){
-            return true;
+            intent = new Intent(MainActivity.this, NotificationActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

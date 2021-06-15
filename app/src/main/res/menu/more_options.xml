@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="SHARE"
+        android:id="@+id/more_share"
+        />
+
+    <item
+        android:title="REMOVE"
+        android:id="@+id/more_remove"
+        />
+
+    <item
+        android:title="REPORT"
+        android:id="@+id/more_report"
+        />
+
+</menu>

@@ -33,6 +33,8 @@ public class Login extends AppCompatActivity {
         });
 
 
+
+
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,15 +53,16 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Login Success", Toast.LENGTH_SHORT).show();
 
 
+
                         // intent after login to HOME
-                        /*
-                        Intent intent = new Intent(Login.this,Home.class);
+//                        /*
+                        Intent intent = new Intent(Login.this,PostDetailActivity.class);
                         intent.putExtra("userid", userlist.get(x).Userid);
                         startActivity(intent);
 
 
 
-                         */
+//                         */
 
 
 

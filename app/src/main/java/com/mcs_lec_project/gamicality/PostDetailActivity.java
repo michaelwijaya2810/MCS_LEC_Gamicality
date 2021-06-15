@@ -40,7 +40,11 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView tvReplyCount;
     private RecyclerView rvReplyList;
     private FloatingActionButton fabReply;
+    Post post;
+    Game game;
+    User user;
 
+    DBHandler dbhandler;
     public PostDetailActivity() {
     }
 
@@ -51,27 +55,35 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 
         setupActionBar();
         setupViews();
+        dbhandler = new DBHandler(this);
+//        get intent from home post of the game
+        Intent intent = getIntent();
+        int currentuserid = intent.getIntExtra("userid",0);
+        int postid = intent.getIntExtra("postid",1);
+
 
 //        get Post object from database
-//        Post post = ;
-//        Post post = new Post();
+          post = dbhandler.getpost(postid);
+
+//        get game object referenced from gameid in post
+          game = dbhandler.getgamefrompost(post.gameId);
+
 //        get post's author user from Post's UserID FK??
-//        User author = ;
-//        User author = new User();
+          user = dbhandler.getauthorfrompost(post.userId);
 
 //        concat username with post date
-//        tvUsernameDate.setText(author.getUsername() + " - " + post.getPostDate());
+        tvUsernameDate.setText(user.getUsername()+ " - " + post.getPostDate());
 
-//        get game title from post's game ID??
-//        tvGameTitle.setText();
+//        get game title from post's game ID?? (yes from game object that referenced from post)
+        tvGameTitle.setText(game.getTitle());
 
-//        get post title from post
-//        tvPostTitle.setText(post.getTitle());
+//        get post title from post ()
+        tvPostTitle.setText(post.getTitle());
 
 //        get post body from post
-//        tvPostBody.setText(post.getBody());
+        tvPostBody.setText(post.getBody());
 
-//        get like count from post??
+//        get like count from post?? (cancel)
 //        likeCount = post.getLikeCount();
 //        tvLikeCount.setText(likeCount);
 
@@ -114,7 +126,10 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
             Log.d(TAG, "Post Shared!");
             return true;
         }else if(item.getItemId() == R.id.post_menu_bookmark){
+
 //            Add post to user's bookmark database
+            dbhandler.addbookmark(user.getUserid(),post.getPostId());
+
 
             Toast.makeText(this, "Post bookmarked!", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Post bookmarked!");

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PostDetailActivity">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_profile_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            app:srcCompat="@drawable/profile_picture1"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_username_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="16dp"
+            android:text="Username - Post Date"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_icon"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_game_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Game Title"
+            app:layout_constraintStart_toStartOf="@id/tv_username_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_username_date" />
+
+        <TextView
+            android:id="@+id/tv_post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:text="Post Title"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_icon" />
+
+        <TextView
+            android:id="@+id/tv_post_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:text="This is the body of the post!"
+            app:layout_constraintTop_toBottomOf="@id/tv_post_title"/>
+
+        <ImageButton
+            android:id="@+id/btn_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/favorite_icon"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="@id/iv_profile_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_post_body"/>
+
+        <TextView
+            android:id="@+id/tv_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="99"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/btn_like"
+            app:layout_constraintTop_toTopOf="@id/btn_like"/>
+
+        <ImageButton
+            android:id="@+id/btn_reply"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/comment_icon"
+            android:background="@android:color/transparent"
+            android:layout_marginStart="26dp"
+            app:layout_constraintStart_toEndOf="@id/tv_like_count"
+            app:layout_constraintTop_toTopOf="@id/btn_like"/>
+
+        <TextView
+            android:id="@+id/tv_reply_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="99"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/btn_reply"
+            app:layout_constraintTop_toTopOf="@id/btn_reply"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="30dp"
+            android:background="#DEDEDE"
+            app:layout_constraintTop_toBottomOf="@id/tv_reply_count"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_reply_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/divider"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/comment_icon"
+            android:backgroundTint="#FF6D10"
+            app:borderWidth="0dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

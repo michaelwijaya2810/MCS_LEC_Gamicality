@@ -43,12 +43,12 @@ public class DBHandler {
         while(cursor.moveToNext())
         {
             User user = new User();
-            user.Userid = cursor.getInt(0);
-            user.Username = cursor.getString(1);
-            user.password = cursor.getString(2);
+            user.setUserid(cursor.getInt(0));
+            user.setUsername(cursor.getString(1));
+            user.setPassword(cursor.getString(2));
             userlist.add(user);
         }
-
+        cursor.close();
         return userlist;
     }
 

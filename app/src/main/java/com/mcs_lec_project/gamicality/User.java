@@ -6,7 +6,7 @@ public class User {
     String Email;
     String password;
     int Userid;
-
+  
     public String getUsername() {
         return Username;
     }
@@ -46,4 +46,5 @@ public class User {
     public void setUserid(int userid) {
         Userid = userid;
     }
+
 }

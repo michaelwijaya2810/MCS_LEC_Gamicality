@@ -49,6 +49,7 @@ public class DBHandler {
             userlist.add(user);
         }
         cursor.close();
+
         return userlist;
     }
 

@@ -9,17 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gamicality">
-        <activity android:name=".Register"/>
-        <activity android:name=".Login">
-            <intent-filter>
+        <activity android:name=".ReplyActivity"
+            android:parentActivityName=".PostDetailActivity" />
+        <activity android:name=".AddPostActivity"
+            android:parentActivityName=".PostDetailActivity" />
+        <activity android:name=".Register" />
+        <activity android:name=".Login" >
+          <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+          </intent-filter>
         </activity>
-        <activity android:name="BookmarkActivity"/>
-        <activity android:name=".NotificationActivity"/>
+        <activity android:name=".BookmarkActivity" />
+        <activity android:name=".NotificationActivity" />
+        <activity android:name=".PostDetailActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="Gamicality">
+            android:label="Gamicality" />
     </application>
 </manifest>

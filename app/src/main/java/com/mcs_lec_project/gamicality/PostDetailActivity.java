@@ -43,7 +43,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     Post post;
     Game game;
     User user;
-
+    int currentuserid;
     DBHandler dbhandler;
     public PostDetailActivity() {
     }
@@ -58,7 +58,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         dbhandler = new DBHandler(this);
 //        get intent from home post of the game
         Intent intent = getIntent();
-        int currentuserid = intent.getIntExtra("userid",0);
+        currentuserid = intent.getIntExtra("userid",0);
         int postid = intent.getIntExtra("postid",1);
 
 
@@ -128,7 +128,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         }else if(item.getItemId() == R.id.post_menu_bookmark){
 
 //            Add post to user's bookmark database
-            dbhandler.addbookmark(user.getUserid(),post.getPostId());
+            dbhandler.addbookmark(currentuserid,post.getPostId());
 
 
             Toast.makeText(this, "Post bookmarked!", Toast.LENGTH_SHORT).show();

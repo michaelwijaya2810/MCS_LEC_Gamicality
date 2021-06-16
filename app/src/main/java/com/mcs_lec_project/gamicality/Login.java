@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
 
                         // intent after login to HOME
 //                        /*
-                        Intent intent = new Intent(Login.this,BookmarkActivity.class);
+                        Intent intent = new Intent(Login.this,NotificationActivity.class);
                         intent.putExtra("userid", userlist.get(x).Userid);
                         startActivity(intent);
 

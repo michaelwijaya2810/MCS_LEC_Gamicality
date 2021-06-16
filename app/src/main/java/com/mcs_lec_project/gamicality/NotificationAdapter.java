@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,15 +19,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public NotificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.notif_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
+        DBHandler dbhandler = new DBHandler(context);
         int imageId = notifications.get(position).getImageId();
-        String content = notifications.get(position).getContent();
+
+        User user = dbhandler.getauthorfrompost(notifications.get(position).getId());
+
+        String content = user.getUsername() +" replied to your post :"+ notifications.get(position).getContent();
 
         holder.iv_profile_picture.setImageResource(imageId);
         holder.tv_content.setText(content);

@@ -79,6 +79,10 @@ public class DBHelper extends SQLiteOpenHelper {
             ""+field_Replies_body+" Text,  "+field_replies_postDate+" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,   " +
             "Foreign key (userid) references Users(Userid), Foreign key(postid) references Posts(postid))";
 
+
+
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -87,6 +91,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(create_table_post);
         db.execSQL(create_table_bookmark);
         db.execSQL(create_table_Replies);
+
     }
 
     @Override

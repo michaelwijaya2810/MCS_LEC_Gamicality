@@ -207,4 +207,39 @@ public class DBHandler {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         db.execSQL("delete from bookmarklist where userid == '"+userid+"' and postid=='"+postid+"'");
     }
+
+    public ArrayList<Notification> getnotificationlist(int userid)
+    {
+        ArrayList<Notification> notificationlist= new ArrayList<>();
+
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        Cursor check;
+        check = db.rawQuery("select count(Replies.userid) from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.postid "  ,null);
+        check.moveToFirst();
+
+
+
+        if(check.getInt(0)<=0)
+        {
+            return notificationlist;
+        }
+        else {
+            Cursor cursor;
+
+            cursor = db.rawQuery("select * from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.postid", null);
+            cursor.moveToFirst();
+
+            do {
+                Post post = getpost(cursor.getInt(1));
+                Notification notification = new Notification();
+                notification.setId(cursor.getInt(0));
+                notification.setContent(post.getBody());
+                notificationlist.add(notification);
+            }
+            while (cursor.moveToNext());
+        }
+
+
+        return notificationlist;
+    }
 }

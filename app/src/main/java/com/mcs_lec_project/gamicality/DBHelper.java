@@ -65,8 +65,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String field_Bookmark_userid = "userid";
     public static final String field_Bookmark_postid = "postid";
 
-    private static final String create_table_bookmark = "create table if not exists "+table_Bookmark+"("+field_Bookmark_userid+" integer ,"+field_Bookmark_postid+" integer," +
+    private static final String create_table_bookmark = "create table if not exists "+table_Bookmark+"("+field_Bookmark_userid+" integer ,"+field_Bookmark_postid+" integer, image BLOB, " +
             "Foreign key (userid) references Users(Userid), Foreign key(postid) references Posts(postid)) ";
+
+    //table reply
+    public static final String table_Replies = "Replies";
+    public static final String field_Replies_userid = "userid";
+    public static final String field_Replies_postid = "postid";
+    public static final String field_replies_postDate = "postdate";
+    public static final String field_Replies_body = "body";
+
+    private static final String create_table_Replies = "create table if not exists "+table_Replies+" ("+field_Replies_userid+" integer ,"+field_Replies_postid+" integer," +
+            ""+field_Replies_body+" Text,  "+field_replies_postDate+" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,   " +
+            "Foreign key (userid) references Users(Userid), Foreign key(postid) references Posts(postid))";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -75,6 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(create_table_game);
         db.execSQL(create_table_post);
         db.execSQL(create_table_bookmark);
+        db.execSQL(create_table_Replies);
     }
 
     @Override

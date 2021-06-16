@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +16,10 @@ public class ReplyActivity extends AppCompatActivity {
     private static final String TAG = ReplyActivity.class.getSimpleName();
 
     private EditText etBody;
-
+    int userid;
+    int postid;
+    Intent intent;
+    DBHandler dbhandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +28,13 @@ public class ReplyActivity extends AppCompatActivity {
         setupActionBar();
 
         etBody = findViewById(R.id.et_body);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_post_button, menu);
+
         return true;
     }
 
@@ -36,11 +42,19 @@ public class ReplyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_btn_post){
             String body = etBody.getEditableText().toString();
-
+            dbhandler = new DBHandler(this);
             if(!body.isEmpty()){
-//              get the author's info
+//              get the author's info and post origin
+                intent = getIntent();
+                userid = intent.getIntExtra("userid",0);
+                postid = intent.getIntExtra("postid",0);
 //              insert new reply to DB
+                dbhandler.addreply(userid,postid,body);
                 Toast.makeText(this, "You replied to the post!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this,PostDetailActivity.class);
+                intent.putExtra("userid",userid);
+                intent.putExtra("postid",postid);
+                startActivity(intent);
                 finish();
             }else{
                 etBody.setError("Reply body is empty!");
@@ -55,5 +69,18 @@ public class ReplyActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.cancel_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent();
+        userid = intent.getIntExtra("userid",0);
+        postid = intent.getIntExtra("postid",0);
+
+        intent = new Intent(this,PostDetailActivity.class);
+        intent.putExtra("userid",userid);
+        intent.putExtra("postid",postid);
+        startActivity(intent);
+        finish();
     }
 }

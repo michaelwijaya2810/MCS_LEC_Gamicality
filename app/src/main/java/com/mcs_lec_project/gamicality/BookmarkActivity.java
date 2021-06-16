@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapter.OnBookmarkListener {
 
-    ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
-
+    ArrayList<Bookmark> bookmarklist;
+    DBHandler dbhandler;
+    int currentuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,17 +27,26 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
 
         RecyclerView rv_bookmark = findViewById(R.id.rv_bookmark);
         BookmarkAdapter bookmarkAdapter = new BookmarkAdapter();
+        dbhandler = new DBHandler(this);
+        Intent intent = getIntent();
+        currentuser = intent.getIntExtra("userid",0);
+
+        bookmarklist = dbhandler.getbookmarklist(currentuser);
 
         // sample data
-        Bookmark bookmark = new Bookmark();
-        bookmark.setImageId(R.drawable.profile_picture3);
-        bookmark.setContent("Hunter's Fury Build - turn every SMG to monster");
-        bookmarks.add(bookmark);
+//        Bookmark bookmark = new Bookmark();
+//        bookmark.setImageId(R.drawable.profile_picture3);
+//        bookmark.setContent("Hunter's Fury Build - turn every SMG to monster");
+//        bookmarks.add(bookmark);
+//
+//        Bookmark bookmark1 = new Bookmark();
+//        bookmark1.setImageId(R.drawable.profile_picture1);
+//        bookmark1.setContent("Genshin Impact Fan Club - top 10 best character");
+//        bookmarks.add(bookmark1);
 
-        Bookmark bookmark1 = new Bookmark();
-        bookmark1.setImageId(R.drawable.profile_picture1);
-        bookmark1.setContent("Genshin Impact Fan Club - top 10 best character");
-        bookmarks.add(bookmark1);
+
+
+
 
         // dividers
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
@@ -44,14 +54,19 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
         rv_bookmark.addItemDecoration(dividerItemDecoration);
 
         // call RecyclerView
-        bookmarkAdapter.setData(bookmarks, BookmarkActivity.this, this);
-        rv_bookmark.setAdapter(bookmarkAdapter);
-        rv_bookmark.setLayoutManager(new LinearLayoutManager(this));
+        if(bookmarklist.size()>=1)
+        {
+            bookmarkAdapter.setData(bookmarklist, BookmarkActivity.this, this);
+            rv_bookmark.setAdapter(bookmarkAdapter);
+            rv_bookmark.setLayoutManager(new LinearLayoutManager(this));
+        }
+
     }
 
     @Override
     public void OnBookmarkClick(int position) {
         Intent intent = new Intent(BookmarkActivity.this, PostDummy.class);
+        intent.putExtra("userid",currentuser);
         startActivity(intent);
     }
 
@@ -69,15 +84,19 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(BookmarkActivity.this, MainActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menu_game_list){
+            intent.putExtra("userid",currentuser);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
             intent = new Intent(this, BookmarkActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_notif){
             intent = new Intent(this, NotificationActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
         }

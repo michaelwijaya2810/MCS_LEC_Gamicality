@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
 
         Button loginbtn = findViewById(R.id.loginbtn);
         DBHandler db = new DBHandler(this);
-        userlist = new ArrayList<User>();
+
         registerhere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
 
                         // intent after login to HOME
 //                        /*
-                        Intent intent = new Intent(Login.this,PostDetailActivity.class);
+                        Intent intent = new Intent(Login.this,BookmarkActivity.class);
                         intent.putExtra("userid", userlist.get(x).Userid);
                         startActivity(intent);
 

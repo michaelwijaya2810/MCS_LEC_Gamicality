@@ -44,7 +44,10 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     Game game;
     User user;
     int currentuserid;
+    int postid;
     DBHandler dbhandler;
+    ArrayList<ReplyPost> replylist;
+    ReplyAdapter adapter;
     public PostDetailActivity() {
     }
 
@@ -59,8 +62,11 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 //        get intent from home post of the game
         Intent intent = getIntent();
         currentuserid = intent.getIntExtra("userid",0);
-        int postid = intent.getIntExtra("postid",1);
+        postid = intent.getIntExtra("postid",1);
 
+        //get replylist
+
+        replylist = dbhandler.getreplylist(postid);
 
 //        get Post object from database
           post = dbhandler.getpost(postid);
@@ -88,14 +94,24 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 //        tvLikeCount.setText(likeCount);
 
 //        get reply count from post's reply arraylist.size
-//        tvReplyCount.setText(post.getReplyList().size());
+        if(replylist.size()>=1)
+        {
+            tvReplyCount.setText(String.valueOf(replylist.size()));
+        }
 
-//        get model data for reply list, from post's reply array list?
+
+//        get model data for reply list, from post's reply array list? (arraylist already get from on create)
 //        ArrayList<ReplyPost> replyList = post.getReplyList();
+
+
         //setup recyclerView
-//        ReplyAdapter adapter = new ReplyAdapter(replyList);
-//        rvReplyList.setAdapter(adapter);
-        rvReplyList.setLayoutManager(new LinearLayoutManager(this));
+        if(replylist.size()>=1)
+        {
+            adapter = new ReplyAdapter(replylist);
+            rvReplyList.setAdapter(adapter);
+            rvReplyList.setLayoutManager(new LinearLayoutManager(this));
+        }
+
 
 //        initialize isLiked value from DB, by checking if user liked the post before or not?
 //        isLiked = ;
@@ -165,7 +181,13 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if(v.getId() == btnReply.getId() || v.getId() == fabReply.getId()){
-            startActivity(new Intent(this, ReplyActivity.class));
+            Intent intent = new Intent(this, ReplyActivity.class);
+            //send author info and post origin to replyacitivity
+            intent.putExtra("userid",currentuserid);
+            intent.putExtra("postid",postid);
+            startActivity(intent);
+            finish();
+
         }else if(v.getId() == btnLike.getId()){
 //            if(!isLiked){ //post not liked yet
 //                btnLike.setImageResource(R.drawable.favorite_filled_icon);

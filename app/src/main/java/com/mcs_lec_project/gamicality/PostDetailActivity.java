@@ -44,6 +44,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     Game game;
     User user;
     int currentuserid;
+    int postid;
     DBHandler dbhandler;
     public PostDetailActivity() {
     }
@@ -59,7 +60,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 //        get intent from home post of the game
         Intent intent = getIntent();
         currentuserid = intent.getIntExtra("userid",0);
-        int postid = intent.getIntExtra("postid",1);
+        postid = intent.getIntExtra("postid",1);
 
 
 //        get Post object from database
@@ -165,7 +166,11 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if(v.getId() == btnReply.getId() || v.getId() == fabReply.getId()){
-            startActivity(new Intent(this, ReplyActivity.class));
+            Intent intent = new Intent(this, ReplyActivity.class);
+            //send author info and post origin to replyacitivity
+            intent.putExtra("userid",currentuserid);
+            intent.putExtra("postid",postid);
+            startActivity(intent);
         }else if(v.getId() == btnLike.getId()){
 //            if(!isLiked){ //post not liked yet
 //                btnLike.setImageResource(R.drawable.favorite_filled_icon);

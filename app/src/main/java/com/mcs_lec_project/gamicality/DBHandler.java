@@ -40,14 +40,21 @@ public class DBHandler {
             cursor = db.rawQuery("select * from " +"Users",null);
         }
         cursor.moveToFirst();
-        while(cursor.moveToNext())
-        {
-            User user = new User();
-            user.setUserid(cursor.getInt(0));
-            user.setUsername(cursor.getString(1));
-            user.setPassword(cursor.getString(2));
-            userlist.add(user);
+
+        do {
+            if(db!=null)
+            {
+                User user = new User();
+                user.setUserid(cursor.getInt(0));
+                user.setUsername(cursor.getString(1));
+                user.setPassword(cursor.getString(2));
+                userlist.add(user);
+            }
+
         }
+        while(cursor.moveToNext());
+
+
         cursor.close();
 
         return userlist;
@@ -114,6 +121,12 @@ public class DBHandler {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
         db.execSQL("insert into Bookmarklist(userid,postid) values('"+userid+"', '"+postid+"')");
+    }
+
+    public void addreply(int userid,int postid,String body)
+    {
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        db.execSQL("insert into Replies(userid,postid,body) Values ('"+userid+"', '"+postid+"', '"+body+"')");
     }
 
 

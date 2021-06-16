@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
 
         Button loginbtn = findViewById(R.id.loginbtn);
         DBHandler db = new DBHandler(this);
-        userlist = new ArrayList<User>();
+
         registerhere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

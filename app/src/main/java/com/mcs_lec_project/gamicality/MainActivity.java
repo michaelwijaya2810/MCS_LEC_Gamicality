@@ -10,11 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-
+    Intent intent;
+    int currentuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        currentuser = intent.getIntExtra("userid",0);
+
     }
 
     @Override
@@ -30,14 +33,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(MainActivity.this, MainActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menu_game_list){
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
             intent = new Intent(MainActivity.this, BookmarkActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menu_notif){
             intent = new Intent(MainActivity.this, NotificationActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

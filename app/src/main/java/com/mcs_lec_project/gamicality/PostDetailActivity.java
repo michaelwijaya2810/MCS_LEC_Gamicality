@@ -118,7 +118,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
             return true;
         }else if(item.getItemId() == R.id.post_menu_bookmark){
 //            Add post to user's bookmark database
-            dbhandler.addbookmark(currentuserid,post.getPostId());
+            dbhandler.addbookmark(currentuserid,post.getPostId(),this);
 
             Toast.makeText(this, "Post bookmarked!", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Post bookmarked!");

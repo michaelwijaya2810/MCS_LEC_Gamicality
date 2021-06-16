@@ -22,6 +22,8 @@ import java.util.ArrayList;
 public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     ArrayList<Home> homes = new ArrayList<Home>();
     Context context;
+    DBHandler dbhandler;
+    int currentuser;
 
     @NonNull
     @Override
@@ -33,22 +35,26 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int imageId = homes.get(position).getImageId();
-        String content = homes.get(position).getContent();
+//        int imageId = homes.get(position).getImageId();
+        dbhandler = new DBHandler(context);
+        User author = dbhandler.getauthorfrompost(homes.get(position).getAuthorid());
+
         String name = homes.get(position).getName();
         String date = homes.get(position).getDate();
 
-        holder.iv_profile_picture.setImageResource(imageId);
-        holder.tv_name.setText(name);
+//        holder.iv_profile_picture.setImageResource(imageId);
+        holder.tv_name.setText(author.getUsername());
         holder.tv_date.setText(date);
-        holder.tv_title.setText(content);
+        holder.tv_title.setText(name);
 
     //Ketika post di kilk
         holder.itemView.setOnClickListener(new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            context.startActivity(intent);
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("userid",currentuser);
+            intent.putExtra("postid",homes.get(position).getId());
+            context.startActivity(intent);
         }
      });
 
@@ -100,9 +106,10 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return homes.size();
     }
 
-    public void setData(ArrayList<Home> homes, Context context){
+    public void setData(ArrayList<Home> homes, Context context,int currentuser){
         this.homes = homes;
         this.context = context;
+        this.currentuser = currentuser;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

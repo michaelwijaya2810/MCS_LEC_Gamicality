@@ -38,7 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String create_table_game = "Create table if not Exists "+table_game+" " +
             "( "+field_game_id+" integer primary key autoincrement," +
             " "+field_game_title+" TEXT," +
-            " "+field_game_image+" BLOB" +
+            " "+field_game_image+" integer" +
             ")  ";
 
 
@@ -91,6 +91,20 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(create_table_post);
         db.execSQL(create_table_bookmark);
         db.execSQL(create_table_Replies);
+
+        String[] gameName = {"Cyberpunk 2077", "Call of Duty Black Ops Cold War", "Demon Souls", "Spider-Man Miles Morales", "Immortals Fenyx Rising", "Assassins Creed Valhalla", "Watch Dogs Legion", "Genshin Impact", "Ghostrunner"};
+        int[] gameImgId = {R.drawable.cyberpunk1, R.drawable.blackopscoldwar2, R.drawable.demonsouls3, R.drawable.spidermanmiles4, R.drawable.immortalsfenyx5, R.drawable.acvalhalla6, R.drawable.watchdogslegion7, R.drawable.genshinimpact8, R.drawable.ghostrunner9};
+
+
+        for (int i=0;i<9;++i){
+//            Game gameInfo = new Game();
+            String title = gameName[i];
+            int imgId = gameImgId[i];
+            db.execSQL("Insert into Games(title,image) values('"+title+"' , '"+imgId+"')" );
+//            gameInfo.setTitle(title);
+//            gameInfo.setImageId(imgId);
+//            Game.add(gameInfo);
+        }
 
     }
 

@@ -2,7 +2,17 @@ package com.mcs_lec_project.gamicality;
 
 public class Home {
     private int id;
+    private int authorid;
     private String name;
+
+    public int getAuthorid() {
+        return authorid;
+    }
+
+    public void setAuthorid(int authorid) {
+        this.authorid = authorid;
+    }
+
     private String date;
     private int imageId;
     private String content;

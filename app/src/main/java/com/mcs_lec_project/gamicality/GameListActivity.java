@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class GameListActivity extends AppCompatActivity{
-    ArrayList<Game> Game = new ArrayList<>();
+    ArrayList<Game> Game;
     SQLiteDatabase db;
-    DBHelper  dbhelper;
-
+    DBHandler dbHandler;
+    int currentuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,25 +25,16 @@ public class GameListActivity extends AppCompatActivity{
 
         RecyclerView rv_Game = findViewById(R.id.rv_gamelist);
         GameListAdapter GameAdapter = new GameListAdapter();
-        dbhelper = new DBHelper(this);
-        db = dbhelper.getWritableDatabase();
+        dbHandler = new DBHandler(this);
 
-        String[] gameName = {"Cyberpunk 2077", "Call of Duty Black Ops Cold War", "Demon Souls", "Spider-Man Miles Morales", "Immortals Fenyx Rising", "Assassin's Creed Valhalla", "Watch Dogs Legion", "Genshin Impact", "Ghostrunner"};
-        int[] gameImgId = {R.drawable.cyberpunk1, R.drawable.blackopscoldwar2, R.drawable.demonsouls3, R.drawable.spidermanmiles4, R.drawable.immortalsfenyx5, R.drawable.acvalhalla6, R.drawable.watchdogslegion7, R.drawable.genshinimpact8, R.drawable.ghostrunner9};
+        Intent intent = getIntent();
+        currentuser = intent.getIntExtra("userid",0);
+        Game = dbHandler.getgamelist();
 
-        for (int i=0;i<9;++i){
-            Game gameInfo = new Game();
-            String title = gameName[i];
-            int imgId = gameImgId[i];
-//            db.execSQL("Insert into Games(title) values('"+title+"')");
-            gameInfo.setTitle(title);
-            gameInfo.setImageId(imgId);
-            Game.add(gameInfo);
-        }
 
 
         // call RecyclerView
-        GameAdapter.setData(Game, GameListActivity.this);
+        GameAdapter.setData(Game, GameListActivity.this,currentuser);
         rv_Game.setAdapter(GameAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         rv_Game.setLayoutManager(gridLayoutManager);
@@ -65,18 +56,22 @@ public class GameListActivity extends AppCompatActivity{
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(GameListActivity.this, PostIndexActivity.class);
+            intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_game_list){
             intent = new Intent(GameListActivity.this, GameListActivity.class);
+            intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
             intent = new Intent(GameListActivity.this, BookmarkActivity.class);
+            intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_notif){
             intent = new Intent(GameListActivity.this, NotificationActivity.class);
+            intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
         }

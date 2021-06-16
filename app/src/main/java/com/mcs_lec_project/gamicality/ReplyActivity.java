@@ -26,7 +26,7 @@ public class ReplyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reply);
 
         setupActionBar();
-        intent = getIntent();
+
         etBody = findViewById(R.id.et_body);
 
     }
@@ -34,6 +34,7 @@ public class ReplyActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_post_button, menu);
+
         return true;
     }
 
@@ -44,12 +45,16 @@ public class ReplyActivity extends AppCompatActivity {
             dbhandler = new DBHandler(this);
             if(!body.isEmpty()){
 //              get the author's info and post origin
+                intent = getIntent();
                 userid = intent.getIntExtra("userid",0);
                 postid = intent.getIntExtra("postid",0);
 //              insert new reply to DB
                 dbhandler.addreply(userid,postid,body);
                 Toast.makeText(this, "You replied to the post!", Toast.LENGTH_SHORT).show();
-                finish();
+                Intent intent = new Intent(this,PostDetailActivity.class);
+                intent.putExtra("userid",userid);
+                intent.putExtra("postid",postid);
+                startActivity(intent);
             }else{
                 etBody.setError("Reply body is empty!");
             }
@@ -63,5 +68,17 @@ public class ReplyActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.cancel_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent();
+        userid = intent.getIntExtra("userid",0);
+        postid = intent.getIntExtra("postid",0);
+
+        intent = new Intent(this,PostDetailActivity.class);
+        intent.putExtra("userid",userid);
+        intent.putExtra("postid",postid);
+        startActivity(intent);
     }
 }

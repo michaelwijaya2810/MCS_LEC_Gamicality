@@ -129,6 +129,44 @@ public class DBHandler {
         db.execSQL("insert into Replies(userid,postid,body) Values ('"+userid+"', '"+postid+"', '"+body+"')");
     }
 
+    public ArrayList<ReplyPost> getreplylist(int postid)
+    {
+        ArrayList<ReplyPost> replylist = new ArrayList<>();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        Cursor check;
 
+
+        check = db.rawQuery("select count(userid) from Replies",null);
+        check.moveToFirst();
+        if(check.getInt(0)<=0)
+        {
+            return replylist;
+        }
+        else
+        {
+            Cursor cursor;
+
+            cursor = db.rawQuery("select * from Replies where postid == '"+postid+"'  ",null);
+            cursor.moveToFirst();
+
+            do {
+
+                ReplyPost replypost = new ReplyPost();
+                replypost.setUserId(cursor.getInt(0));
+                replypost.setBody(cursor.getString(2));
+                replypost.setReplyDate(cursor.getString(3));
+                replylist.add(replypost);
+            }
+            while(cursor.moveToNext());
+
+            cursor.close();
+            return replylist;
+        }
+
+
+
+
+
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.mcs_lec_project.gamicality;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 
 public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHolder>{
     private final ArrayList<ReplyPost> replyList;
-
+    DBHandler dbhandler;
+    Context context;
     public ReplyAdapter(ArrayList<ReplyPost> replyList){
         this.replyList = replyList;
     }
@@ -22,19 +24,22 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
     public ReplyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View replyView = layoutInflater.inflate(R.layout.item_post_reply, parent, false);
+        context = parent.getContext();
+        dbhandler = new DBHandler(context);
         return new ReplyViewHolder(replyView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ReplyAdapter.ReplyViewHolder holder, int position) {
         //get author as User object from Reply's UserId?
-//        User author = ;
+        User author = dbhandler.getauthorfrompost(replyList.get(position).getUserId());
 //        User author = new User();
         //get author's username
-//        holder.tvUsername.setText(author.getUsername());
-//        ReplyPost replyPost = replyList.get(position);
-//        holder.tvReplyDate.setText(replyPost.getReplyDate());
-//        holder.tvReplyBody.setText(replyPost.getBody());
+        holder.tvUsername.setText(author.getUsername());
+        ReplyPost replyPost = replyList.get(position);
+        holder.tvReplyDate.setText(replyPost.getReplyDate());
+        holder.tvReplyBody.setText(replyPost.getBody());
+
     }
 
     @Override

@@ -2,7 +2,26 @@ package com.mcs_lec_project.gamicality;
 
 public class Bookmark {
     private int id;
+    private int userid;
+    private int postid;
     private int imageId;
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getPostid() {
+        return postid;
+    }
+
+    public void setPostid(int postid) {
+        this.postid = postid;
+    }
+
     //    private String user;
     private String content;
 

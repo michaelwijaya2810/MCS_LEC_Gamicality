@@ -3,6 +3,7 @@ package com.mcs_lec_project.gamicality;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,25 +20,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHolder> {
-    ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
+    ArrayList<Bookmark> bookmarklist;
     Context context;
     OnBookmarkListener listener;
-
+    DBHandler dbhandler;
     @NonNull
     @Override
     public BookmarkAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+        dbhandler = new DBHandler(context);
+
+
         View view = LayoutInflater.from(context).inflate(R.layout.bookmark_list, parent, false);
         return new ViewHolder(view, listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int imageId = bookmarks.get(position).getImageId();
-        String content = bookmarks.get(position).getContent();
+//        int imageId = bookmarklist.get(position).getImageId();
+        Post post = dbhandler.getpost(bookmarklist.get(position).getPostid());
 
-        holder.iv_profile_picture.setImageResource(imageId);
-        holder.tv_content.setText(content);
+
+//        holder.iv_profile_picture.setImageResource(imageId);
+        holder.tv_content.setText(post.getBody());
 
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +57,11 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
                                 Toast.makeText(context, "Successfully shared", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.more_remove:
-                                bookmarks.remove(position);
+                                dbhandler.removebookmark(bookmarklist.get(position).getUserid(),bookmarklist.get(position).getPostid());
+                                bookmarklist.remove(position);
                                 notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, bookmarks.size());
+                                notifyItemRangeChanged(position, bookmarklist.size());
+
                                 break;
                             case R.id.more_report:
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -84,11 +91,11 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return bookmarks.size();
+        return bookmarklist.size();
     }
 
     public void setData(ArrayList<Bookmark> bookmarks, Context context, OnBookmarkListener listener){
-        this.bookmarks = bookmarks;
+        this.bookmarklist = bookmarks;
         this.context = context;
         this.listener = listener;
     }

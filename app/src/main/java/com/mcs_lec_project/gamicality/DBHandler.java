@@ -162,11 +162,49 @@ public class DBHandler {
             cursor.close();
             return replylist;
         }
-
-
-
-
-
     }
 
+    public ArrayList<Bookmark> getbookmarklist(int userid)
+    {
+        ArrayList<Bookmark> bookmarklist = new ArrayList<>();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+
+
+        Cursor check;
+        check = db.rawQuery("select count(userid) from bookmarklist where userid == '"+userid+"'",null);
+        check.moveToFirst();
+
+
+
+        if(check.getInt(0)<=0)
+        {
+            return bookmarklist;
+        }
+        else {
+            Cursor cursor;
+
+            cursor = db.rawQuery("select * from bookmarklist where userid == '" + userid + "'  ", null);
+            cursor.moveToFirst();
+
+            do {
+
+                Bookmark bookmark = new Bookmark();
+                bookmark.setUserid(cursor.getInt(0));
+                bookmark.setPostid(cursor.getInt(1));
+//                bookmark.setImageId();
+                bookmarklist.add(bookmark);
+            }
+            while (cursor.moveToNext());
+        }
+
+        return bookmarklist;
+    }
+
+
+
+    public void removebookmark(int userid,int postid)
+    {
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        db.execSQL("delete from bookmarklist where userid == '"+userid+"' and postid=='"+postid+"'");
+    }
 }

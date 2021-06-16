@@ -65,7 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String field_Bookmark_userid = "userid";
     public static final String field_Bookmark_postid = "postid";
 
-    private static final String create_table_bookmark = "create table if not exists "+table_Bookmark+"("+field_Bookmark_userid+" integer ,"+field_Bookmark_postid+" integer," +
+    private static final String create_table_bookmark = "create table if not exists "+table_Bookmark+"("+field_Bookmark_userid+" integer ,"+field_Bookmark_postid+" integer, image BLOB, " +
             "Foreign key (userid) references Users(Userid), Foreign key(postid) references Posts(postid)) ";
 
     //table reply

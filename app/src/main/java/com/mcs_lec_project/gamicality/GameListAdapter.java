@@ -64,7 +64,7 @@ public class GameListAdapter  extends RecyclerView.Adapter<GameListAdapter.ViewH
             super(itemView);
 
             iv_profile_picture = itemView.findViewById(R.id.iv_profile_picture_gm);
-            tv_name = itemView.findViewById(R.id.tv_namagame);
+            tv_name = itemView.findViewById(R.id.tv_game_title);
             btn_more = itemView.findViewById(R.id.btn_more1);
 
         }

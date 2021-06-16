@@ -1,5 +1,6 @@
 package com.mcs_lec_project.gamicality;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.CharArrayBuffer;
@@ -9,6 +10,7 @@ import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -116,11 +118,25 @@ public class DBHandler {
         return user;
     }
 
-    public void addbookmark(int userid,int postid)
+    public void addbookmark(int userid,int postid, Context context)
     {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
-        db.execSQL("insert into Bookmarklist(userid,postid) values('"+userid+"', '"+postid+"')");
+        Cursor cursor;
+        cursor = db.rawQuery("select * from bookmarklist where userid = '"+userid+"' and postid = '"+postid+"' ",null);
+        cursor.moveToFirst();
+
+        if(cursor.getCount()>0 &&cursor.getInt(0) == userid && cursor.getInt(1)== postid)
+        {
+
+          Toast.makeText(context,"already bookmarked",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            db.execSQL("insert into Bookmarklist(userid,postid) values('"+userid+"', '"+postid+"')");
+        }
+
+
     }
 
     public void addreply(int userid,int postid,String body)

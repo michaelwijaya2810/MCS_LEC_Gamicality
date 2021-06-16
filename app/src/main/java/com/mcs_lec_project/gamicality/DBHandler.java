@@ -112,7 +112,7 @@ public class DBHandler {
         cursor = db.rawQuery("select * from Users where Userid == '"+userid+"'  ",null);
         cursor.moveToFirst();
         user.setUsername(cursor.getString(1));
-
+        cursor.close();
         return user;
     }
 
@@ -140,6 +140,7 @@ public class DBHandler {
         check.moveToFirst();
         if(check.getInt(0)<=0)
         {
+            check.close();
             return replylist;
         }
         else
@@ -159,6 +160,7 @@ public class DBHandler {
             }
             while(cursor.moveToNext());
 
+            check.close();
             cursor.close();
             return replylist;
         }
@@ -178,6 +180,7 @@ public class DBHandler {
 
         if(check.getInt(0)<=0)
         {
+            check.close();
             return bookmarklist;
         }
         else {
@@ -191,12 +194,12 @@ public class DBHandler {
                 Bookmark bookmark = new Bookmark();
                 bookmark.setUserid(cursor.getInt(0));
                 bookmark.setPostid(cursor.getInt(1));
-//                bookmark.setImageId();
                 bookmarklist.add(bookmark);
             }
             while (cursor.moveToNext());
+            check.close();
+            cursor.close();
         }
-
         return bookmarklist;
     }
 
@@ -221,6 +224,7 @@ public class DBHandler {
 
         if(check.getInt(0)<=0)
         {
+            check.close();
             return notificationlist;
         }
         else {
@@ -237,6 +241,8 @@ public class DBHandler {
                 notificationlist.add(notification);
             }
             while (cursor.moveToNext());
+            check.close();
+            cursor.close();
         }
 
 

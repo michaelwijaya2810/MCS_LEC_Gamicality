@@ -94,7 +94,6 @@ public class NotificationActivity extends AppCompatActivity {
             intent = new Intent(NotificationActivity.this, BookmarkActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
-
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
             intent = new Intent(this, BookmarkActivity.class);

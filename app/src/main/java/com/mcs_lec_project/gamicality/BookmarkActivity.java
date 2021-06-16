@@ -65,9 +65,9 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
 
     @Override
     public void OnBookmarkClick(int position) {
-        Intent intent = new Intent(BookmarkActivity.this, PostDummy.class);
-        intent.putExtra("userid",currentuser);
-        startActivity(intent);
+//        Intent intent = new Intent(BookmarkActivity.this, PostDummy.class);
+//        intent.putExtra("userid",currentuser);
+//        startActivity(intent);
     }
 
     // Menu

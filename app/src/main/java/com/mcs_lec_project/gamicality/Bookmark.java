@@ -4,7 +4,6 @@ public class Bookmark {
     private int id;
     private int userid;
     private int postid;
-    private int imageId;
 
     public int getUserid() {
         return userid;
@@ -24,14 +23,6 @@ public class Bookmark {
 
     //    private String user;
     private String content;
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
 
     public int getId() {
         return id;

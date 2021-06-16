@@ -214,7 +214,7 @@ public class DBHandler {
 
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         Cursor check;
-        check = db.rawQuery("select count(Replies.userid) from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.postid "  ,null);
+        check = db.rawQuery("select count(Replies.userid) from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.userid "  ,null);
         check.moveToFirst();
 
 
@@ -226,7 +226,7 @@ public class DBHandler {
         else {
             Cursor cursor;
 
-            cursor = db.rawQuery("select * from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.postid", null);
+            cursor = db.rawQuery("select * from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.userid", null);
             cursor.moveToFirst();
 
             do {

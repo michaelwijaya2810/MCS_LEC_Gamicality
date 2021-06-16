@@ -55,6 +55,7 @@ public class ReplyActivity extends AppCompatActivity {
                 intent.putExtra("userid",userid);
                 intent.putExtra("postid",postid);
                 startActivity(intent);
+                finish();
             }else{
                 etBody.setError("Reply body is empty!");
             }
@@ -80,5 +81,6 @@ public class ReplyActivity extends AppCompatActivity {
         intent.putExtra("userid",userid);
         intent.putExtra("postid",postid);
         startActivity(intent);
+        finish();
     }
 }

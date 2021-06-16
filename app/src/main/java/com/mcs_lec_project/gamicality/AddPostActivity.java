@@ -17,9 +17,11 @@ public class AddPostActivity extends AppCompatActivity {
 
     private EditText etTitle;
     private EditText etBody;
-
+    DBHandler db;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        db = new DBHandler(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
 
@@ -30,6 +32,10 @@ public class AddPostActivity extends AppCompatActivity {
 
         etTitle = findViewById(R.id.et_title);
         etBody = findViewById(R.id.et_body);
+
+        //get intent from game selected for gameid
+        intent = getIntent();
+
     }
 
     @Override
@@ -47,7 +53,14 @@ public class AddPostActivity extends AppCompatActivity {
             if(!title.isEmpty()){
                 if(!body.isEmpty()){
 //                    get the author's info
+
+                    //menunggu intent dari userid dan game id dari home_activity
+                    int userid = intent.getIntExtra("userid",0);
+                    int gameid = intent.getIntExtra("gameid",0);
+
+
 //                    insert new post to DB
+                    db.addPost(userid,gameid,title,body);
                     Toast.makeText(this, "Post created!", Toast.LENGTH_SHORT).show();
                     finish();
                 }else{

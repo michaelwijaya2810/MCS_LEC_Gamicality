@@ -16,13 +16,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class Home_Activity extends AppCompatActivity {
+public class PostIndexActivity extends AppCompatActivity {
     ArrayList<Home> homes = new ArrayList<Home>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_post_index);
 
         RecyclerView rv_home = findViewById(R.id.rv_home);
        HomeAdapter homeAdapter = new HomeAdapter();
@@ -49,7 +49,7 @@ public class Home_Activity extends AppCompatActivity {
         rv_home.addItemDecoration(dividerItemDecoration);
 
         // call RecyclerView
-        homeAdapter.setData(homes, Home_Activity.this);
+        homeAdapter.setData(homes, PostIndexActivity.this);
         rv_home.setAdapter(homeAdapter);
         rv_home.setLayoutManager(new LinearLayoutManager(this));
 
@@ -57,7 +57,7 @@ public class Home_Activity extends AppCompatActivity {
     fab.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(Home_Activity.this, AddPostActivity.class);
+            Intent intent = new Intent(PostIndexActivity.this, AddPostActivity.class);
             startActivity(intent);
           }
         });
@@ -77,18 +77,19 @@ public class Home_Activity extends AppCompatActivity {
         if(item.getItemId() == R.id.action_profile){
             return true;
         }else if(item.getItemId() == R.id.menu_home){
-            intent = new Intent(Home_Activity.this, Home_Activity.class);
+            intent = new Intent(PostIndexActivity.this, PostIndexActivity.class);
             startActivity(intent);
+            return true;
         }else if(item.getItemId() == R.id.menu_game_list){
-            intent = new Intent(Home_Activity.this, GameList_Activity.class);
+            intent = new Intent(PostIndexActivity.this, GameListActivity.class);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
-            intent = new Intent(Home_Activity.this, BookmarkActivity.class);
+            intent = new Intent(PostIndexActivity.this, BookmarkActivity.class);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_notif){
-            intent = new Intent(Home_Activity.this, NotificationActivity.class);
+            intent = new Intent(PostIndexActivity.this, NotificationActivity.class);
             startActivity(intent);
             return true;
         }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class GameListAdapter  extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
-    ArrayList<GameList> gameLists = new ArrayList<GameList>();
+    ArrayList<Game> Games = new ArrayList<Game>();
     Context context;
 
     @NonNull
@@ -27,8 +27,8 @@ public class GameListAdapter  extends RecyclerView.Adapter<GameListAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int imageId = gameLists.get(position).getImageId();
-        String name = gameLists.get(position).getName();
+        int imageId = Games.get(position).getImageId();
+        String name = Games.get(position).getTitle();
 
         holder.iv_profile_picture.setImageResource(imageId);
         holder.tv_name.setText(name);
@@ -47,15 +47,15 @@ public class GameListAdapter  extends RecyclerView.Adapter<GameListAdapter.ViewH
 
     @Override
     public int getItemCount() {
-        return gameLists.size();
+        return Games.size();
     }
 
-    public void setData(ArrayList<GameList> gameLists, Context context) {
-        this.gameLists = gameLists;
+    public void setData(ArrayList<Game> Games, Context context) {
+        this.Games = Games;
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_profile_picture;
         TextView tv_name;
         ImageButton btn_more;

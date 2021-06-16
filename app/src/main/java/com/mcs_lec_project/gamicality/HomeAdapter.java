@@ -65,10 +65,10 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                             case R.id.more_share:
                                 Toast.makeText(context, "Successfully shared", Toast.LENGTH_SHORT).show();
                                 break;
-                            case R.id.more_bookmark:
-
-
-                                break;
+//                            case R.id.more_bookmark:
+//
+//
+//                                break;
                             case R.id.more_report:
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                 builder.setMessage("Report this post?");
@@ -105,7 +105,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_profile_picture;
         TextView tv_name;
         TextView tv_date;

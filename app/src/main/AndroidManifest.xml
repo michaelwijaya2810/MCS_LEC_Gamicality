@@ -15,14 +15,16 @@
             android:parentActivityName=".PostDetailActivity" />
         <activity android:name=".Register" />
         <activity android:name=".Login" >
-          <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-          </intent-filter>
+            </intent-filter>
         </activity>
         <activity android:name=".BookmarkActivity" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".PostDetailActivity" />
+        <activity android:name=".GameListActivity"/>
+        <activity android:name=".PostIndexActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="Gamicality" />

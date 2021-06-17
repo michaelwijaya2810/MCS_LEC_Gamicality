@@ -40,26 +40,26 @@ public class Register extends AppCompatActivity {
 
                 if(!password.equals(passwordconfirm))
                 {
-                    Toast.makeText(context, "password does not match",Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "password does not match",Toast.LENGTH_SHORT).show();
                 }
                 else if(password.isEmpty())
                 {
-                    Toast.makeText(context, "password cannot be empty",Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "password cannot be empty",Toast.LENGTH_SHORT).show();
                 }
                 else if (username.isEmpty())
                 {
-                    Toast.makeText(context, "Username cannot be empty",Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "Username cannot be empty",Toast.LENGTH_SHORT).show();
                 }
                 else if(email.isEmpty())
                 {
-                    Toast.makeText(context, "email cannot be empty",Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "email cannot be empty",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     dbhandler.insertuser(username,password,email);
                     Intent intent = new Intent(Register.this,Login.class);
                     startActivity(intent);
-                    Toast.makeText(context, "user created",Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "user created",Toast.LENGTH_SHORT).show();
                 }
             }
         });

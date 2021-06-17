@@ -114,7 +114,7 @@ public class DBHandler {
         cursor = db.rawQuery("select * from Users where Userid == '"+userid+"'  ",null);
         cursor.moveToFirst();
         user.setUsername(cursor.getString(1));
-
+        cursor.close();
         return user;
     }
 
@@ -152,10 +152,11 @@ public class DBHandler {
         Cursor check;
 
 
-        check = db.rawQuery("select count(userid) from Replies",null);
+        check = db.rawQuery("select count(userid) from Replies where postid = '"+postid+"'",null);
         check.moveToFirst();
         if(check.getInt(0)<=0)
         {
+
             return replylist;
         }
         else
@@ -175,6 +176,7 @@ public class DBHandler {
             }
             while(cursor.moveToNext());
 
+            check.close();
             cursor.close();
             return replylist;
         }
@@ -194,6 +196,7 @@ public class DBHandler {
 
         if(check.getInt(0)<=0)
         {
+            check.close();
             return bookmarklist;
         }
         else {
@@ -207,12 +210,12 @@ public class DBHandler {
                 Bookmark bookmark = new Bookmark();
                 bookmark.setUserid(cursor.getInt(0));
                 bookmark.setPostid(cursor.getInt(1));
-//                bookmark.setImageId();
                 bookmarklist.add(bookmark);
             }
             while (cursor.moveToNext());
+            check.close();
+            cursor.close();
         }
-
         return bookmarklist;
     }
 
@@ -237,6 +240,7 @@ public class DBHandler {
 
         if(check.getInt(0)<=0)
         {
+            check.close();
             return notificationlist;
         }
         else {
@@ -253,9 +257,84 @@ public class DBHandler {
                 notificationlist.add(notification);
             }
             while (cursor.moveToNext());
+            check.close();
+            cursor.close();
         }
 
 
         return notificationlist;
+    }
+
+    public ArrayList<Home> getgamepostlist(int gameid)
+    {
+        ArrayList<Home> postlist = new ArrayList<>();
+
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+
+
+        Cursor check;
+        check = db.rawQuery("select count(postid) from Posts where gameid == '"+gameid+"'",null);
+        check.moveToFirst();
+
+
+
+        if(check.getInt(0)<=0)
+        {
+
+            return postlist;
+        }
+        else {
+            Cursor cursor;
+
+            cursor = db.rawQuery("select * from Posts where gameid == '" + gameid + "'  ", null);
+            cursor.moveToFirst();
+
+            do {
+                Home post = new Home();
+                //postid
+                post.setId(cursor.getInt(0));
+                //authorid
+                post.setAuthorid(cursor.getInt(1));
+                //title
+                post.setName(cursor.getString(3));
+                //date
+                post.setDate(cursor.getString(5));
+                postlist.add(post);
+
+            }
+            while (cursor.moveToNext());
+            check.close();
+            cursor.close();
+        }
+
+
+
+        return postlist;
+    }
+
+    public ArrayList<Game> getgamelist()
+    {
+        ArrayList<Game> gamelist = new ArrayList<>();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        Cursor cursor;
+
+        cursor = db.rawQuery("select * from Games",null);
+
+        cursor.moveToFirst();
+
+        do {
+            Game game = new Game();
+            game.setGameid(cursor.getInt(0));
+            game.setTitle(cursor.getString(1));
+            game.setImageId(cursor.getInt(2));
+            gamelist.add(game);
+        }
+        while(cursor.moveToNext());
+
+
+
+
+        return gamelist;
+
     }
 }

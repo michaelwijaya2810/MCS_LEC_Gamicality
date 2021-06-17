@@ -5,42 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="119dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="334dp"
-        android:layout_marginBottom="16dp"
-        android:text="Edit Profile"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="489dp"
-        android:layout_height="750dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/Username"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backbtneditprof"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="#161616"
+                app:srcCompat="@drawable/back_icon" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Edit Profile"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Username" />
 
         <EditText
             android:id="@+id/UsernameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Potato1234"
@@ -49,14 +59,16 @@
 
         <TextView
             android:id="@+id/BirthdayDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Birthday Date" />
 
         <EditText
             android:id="@+id/DateBirth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="date"
             android:text="17-08-1999"
@@ -65,14 +77,16 @@
 
         <TextView
             android:id="@+id/Email"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Email" />
 
         <EditText
             android:id="@+id/EmailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:text="potato1234@gmail.com"
@@ -81,14 +95,16 @@
 
         <TextView
             android:id="@+id/Password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Password" />
 
         <EditText
             android:id="@+id/PasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textPassword"
             android:text="********"
@@ -97,14 +113,16 @@
 
         <TextView
             android:id="@+id/ConfirmPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="ConfirmPassword" />
 
         <EditText
             android:id="@+id/ConfirmPasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textPassword"
             android:text="********"
@@ -115,8 +133,11 @@
             android:id="@+id/Savebtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@color/mainyellow"
             android:backgroundTint="@color/mtrl_textinput_default_box_stroke_color"
             android:text="Save" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

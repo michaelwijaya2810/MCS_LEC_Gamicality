@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
 
                         // intent after login to HOME
 //                        /*
-                        Intent intent = new Intent(Login.this,PostDetailActivity.class);
+                        Intent intent = new Intent(Login.this,GameListActivity.class);
                         intent.putExtra("userid", userlist.get(x).Userid);
                         startActivity(intent);
 

@@ -35,16 +35,22 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(MainActivity.this, MainActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
         }else if(item.getItemId() == R.id.menu_game_list){
+            intent = new Intent(MainActivity.this, GameListActivity.class);
+            intent.putExtra("userid",currentuser);
+            startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
             intent = new Intent(MainActivity.this, BookmarkActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
         }else if(item.getItemId() == R.id.menu_notif){
             intent = new Intent(MainActivity.this, NotificationActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

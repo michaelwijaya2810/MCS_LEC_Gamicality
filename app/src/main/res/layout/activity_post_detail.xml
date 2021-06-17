@@ -76,7 +76,7 @@
             android:id="@+id/tv_reply_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="99"
+            android:text="0"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@id/btn_reply"
             app:layout_constraintTop_toTopOf="@id/btn_reply"/>

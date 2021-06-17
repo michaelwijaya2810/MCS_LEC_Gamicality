@@ -1,8 +1,9 @@
 package com.mcs_lec_project.gamicality;
 
 public class Game {
-    int gameid;
-    String title;
+    private int gameid;
+    private String title;
+    private int imageId;
 
     public int getGameid() {
         return gameid;
@@ -18,5 +19,13 @@ public class Game {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }

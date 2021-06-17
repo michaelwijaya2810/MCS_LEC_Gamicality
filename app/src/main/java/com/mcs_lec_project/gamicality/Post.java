@@ -9,7 +9,6 @@ public class Post {
     String title;
     String body;
     int likeCount;
-    ArrayList<ReplyPost> replyList;
     String postDate;
 
     public int getPostId() {
@@ -60,16 +59,7 @@ public class Post {
         this.likeCount = likeCount;
     }
 
-    public ArrayList<ReplyPost> getReplyList() {
-        if(replyList.isEmpty()){
-            replyList = new ArrayList<>();
-        }
-        return replyList;
-    }
 
-    public void setReplyList(ArrayList<ReplyPost> replyList) {
-        this.replyList = replyList;
-    }
 
     public String getPostDate() {
         return postDate;

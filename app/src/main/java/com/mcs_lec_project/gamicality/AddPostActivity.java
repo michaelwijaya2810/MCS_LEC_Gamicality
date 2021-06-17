@@ -19,6 +19,8 @@ public class AddPostActivity extends AppCompatActivity {
     private EditText etBody;
     DBHandler db;
     Intent intent;
+    int userid;
+    int gameid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = new DBHandler(this);
@@ -55,14 +57,19 @@ public class AddPostActivity extends AppCompatActivity {
 //                    get the author's info
 
                     //menunggu intent dari userid dan game id dari home_activity
-                    int userid = intent.getIntExtra("userid",0);
-                    int gameid = intent.getIntExtra("gameid",0);
+                    userid = intent.getIntExtra("userid",0);
+                    gameid = intent.getIntExtra("gameid",0);
 
 
 //                    insert new post to DB
                     db.addPost(userid,gameid,title,body);
                     Toast.makeText(this, "Post created!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this,PostIndexActivity.class);
+                    intent.putExtra("userid",userid);
+                    intent.putExtra("gameid",gameid);
+                    startActivity(intent);
                     finish();
+
                 }else{
                     etBody.setError("Post body is empty!");
                 }
@@ -72,5 +79,14 @@ public class AddPostActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,PostIndexActivity.class);
+        intent.putExtra("userid",userid);
+        intent.putExtra("gameid",gameid);
+        startActivity(intent);
+        finish();
     }
 }

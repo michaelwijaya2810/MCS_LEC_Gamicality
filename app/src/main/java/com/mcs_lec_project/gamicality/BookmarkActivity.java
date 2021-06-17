@@ -87,8 +87,11 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
             intent = new Intent(BookmarkActivity.this, MainActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
         }else if(item.getItemId() == R.id.menu_game_list){
+            intent = new Intent(BookmarkActivity.this, GameListActivity.class);
             intent.putExtra("userid",currentuser);
+            startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
             intent = new Intent(this, BookmarkActivity.class);

@@ -18,6 +18,7 @@ public class GameListActivity extends AppCompatActivity{
     SQLiteDatabase db;
     DBHandler dbHandler;
     int currentuser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,48 +32,45 @@ public class GameListActivity extends AppCompatActivity{
         currentuser = intent.getIntExtra("userid",0);
         Game = dbHandler.getgamelist();
 
-
-
         // call RecyclerView
         GameAdapter.setData(Game, GameListActivity.this,currentuser);
         rv_Game.setAdapter(GameAdapter);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager =
+                new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         rv_Game.setLayoutManager(gridLayoutManager);
-
     }
-
 
     // Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_list, menu);
+        getMenuInflater().inflate(R.menu.menu_main_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent();
+        Intent intent;
         if(item.getItemId() == R.id.action_profile){
             return true;
         }else if(item.getItemId() == R.id.menu_home){
-            intent = new Intent(GameListActivity.this, PostIndexActivity.class);
-            intent.putExtra("userid", currentuser);
-            startActivity(intent);
-            return true;
-        }else if(item.getItemId() == R.id.menu_game_list){
-            intent = new Intent(GameListActivity.this, GameListActivity.class);
+            intent = new Intent(this, GameListActivity.class);
             intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
-            intent = new Intent(GameListActivity.this, BookmarkActivity.class);
+            intent = new Intent(this, BookmarkActivity.class);
             intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_notif){
-            intent = new Intent(GameListActivity.this, NotificationActivity.class);
+            intent = new Intent(this, NotificationActivity.class);
             intent.putExtra("userid", currentuser);
             startActivity(intent);
+            return true;
+        }else if(item.getItemId() == R.id.menu_logout){
+            intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

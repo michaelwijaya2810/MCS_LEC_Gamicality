@@ -32,22 +32,6 @@ public class NotificationActivity extends AppCompatActivity {
         RecyclerView rv_notification = findViewById(R.id.rv_notification);
         NotificationAdapter notificationAdapter = new NotificationAdapter();
 
-        // sample data
-//        Notification notification = new Notification();
-//        notification.setImageId(R.drawable.profile_picture1);
-//        notification.setContent("ruthless_kitty liked your reply!");
-//        notifications.add(notification);
-//
-//        Notification notification1 = new Notification();
-//        notification1.setImageId(R.drawable.profile_picture1);
-//        notification1.setContent("just_a_random_dude replied to your post your post!");
-//        notifications.add(notification1);
-//
-//        Notification notification2 = new Notification();
-//        notification2.setImageId(R.drawable.profile_picture1);
-//        notification2.setContent("Genshin Impact fan Club posted a new article!");
-//        notifications.add(notification2);
-
        // dividers
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         dividerItemDecoration.setDrawable(this.getResources().getDrawable(R.drawable.dividers));
@@ -77,7 +61,7 @@ public class NotificationActivity extends AppCompatActivity {
     // Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_list, menu);
+        getMenuInflater().inflate(R.menu.menu_main_list, menu);
         return true;
     }
 
@@ -87,12 +71,7 @@ public class NotificationActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.action_profile){
             return true;
         }else if(item.getItemId() == R.id.menu_home){
-            intent = new Intent(NotificationActivity.this, MainActivity.class);
-            intent.putExtra("userid",currentuser);
-            startActivity(intent);
-            return true;
-        }else if(item.getItemId() == R.id.menu_game_list){
-            intent = new Intent(NotificationActivity.this, GameListActivity.class);
+            intent = new Intent(this, GameListActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
@@ -105,6 +84,11 @@ public class NotificationActivity extends AppCompatActivity {
             intent = new Intent(this, NotificationActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
+        }else if(item.getItemId() == R.id.menu_logout){
+            intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

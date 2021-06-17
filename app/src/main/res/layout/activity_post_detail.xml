@@ -5,22 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".PostDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".PostDetailActivity">
+        android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_profile_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
             app:shapeAppearanceOverlay="@style/roundedImageView"
-            app:srcCompat="@drawable/profile_picture1"
-            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/avatar_icon"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -29,9 +29,11 @@
             android:id="@+id/tv_username_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
             android:text="Username - Post Date"
+            android:textSize="18sp"
+            android:fontFamily="@font/opensansbold"
             app:layout_constraintStart_toEndOf="@id/iv_profile_icon"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -41,6 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="Game Title"
+            android:textSize="14sp"
+            android:fontFamily="@font/opensansregular"
             app:layout_constraintStart_toStartOf="@id/tv_username_date"
             app:layout_constraintTop_toBottomOf="@id/tv_username_date" />
 
@@ -51,6 +55,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
             android:text="Post Title"
+            android:textSize="20sp"
+            android:fontFamily="@font/opensansbold"
             app:layout_constraintTop_toBottomOf="@id/iv_profile_icon" />
 
         <TextView
@@ -60,12 +66,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
             android:text="This is the body of the post!"
+            android:textSize="16sp"
+            android:fontFamily="@font/opensansregular"
             app:layout_constraintTop_toBottomOf="@id/tv_post_title"/>
 
         <ImageButton
             android:id="@+id/btn_reply"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/comment_icon"
             android:background="@android:color/transparent"
             android:layout_marginTop="16dp"
@@ -77,6 +85,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
+            android:textSize="16sp"
+            android:fontFamily="@font/opensansregular"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@id/btn_reply"
             app:layout_constraintTop_toTopOf="@id/btn_reply"/>
@@ -86,9 +96,9 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="15dp"
-            android:layout_marginHorizontal="30dp"
-            android:background="#DEDEDE"
-            app:layout_constraintTop_toBottomOf="@id/tv_reply_count"/>
+            android:background="@color/secondaryorange"
+            app:layout_constraintTop_toBottomOf="@id/tv_reply_count"
+            app:layout_constraintBottom_toTopOf="@id/rv_reply_list"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_reply_list"

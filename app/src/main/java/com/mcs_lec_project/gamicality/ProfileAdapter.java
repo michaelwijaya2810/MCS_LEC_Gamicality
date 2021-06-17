@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,32 +17,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHolder> {
-    ArrayList<Bookmark> bookmarklist;
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
+    //pake Post atau Home?
+    ArrayList<Post> postList;
     Context context;
-    OnBookmarkListener listener;
-    DBHandler dbhandler;
+
+    public ProfileAdapter(Context context, ArrayList<Post> postList){
+        this.context = context;
+        this.postList = postList;
+    }
+
     @NonNull
     @Override
-    public BookmarkAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        dbhandler = new DBHandler(context);
-
-
-        View view = LayoutInflater.from(context).inflate(R.layout.item_bookmark_post, parent, false);
-        return new ViewHolder(view, listener);
+    public ProfileAdapter.ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View profileView = inflater.inflate(R.layout.item_post_options_menu, parent, false);
+        return new ProfileViewHolder(profileView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Post post = dbhandler.getpost(bookmarklist.get(position).getPostid());
+    public void onBindViewHolder(@NonNull ProfileAdapter.ProfileViewHolder holder, int position) {
+        //get post information from DB (username, post date, post title)
+        //setText all TextView
 
-        holder.tv_content.setText(post.getBody());
-
-        holder.btn_more.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //intent to PostDetailActivity when user click on the post in the list
+            }
+        });
+        holder.btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.btn_more);
+                PopupMenu popupMenu = new PopupMenu(context, holder.btnMore);
                 popupMenu.inflate(R.menu.menu_bookmark_list);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -52,10 +58,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
                             Toast.makeText(context, "Successfully shared", Toast.LENGTH_SHORT).show();
                             return true;
                         }else if(menuItem.getItemId() == R.id.bm_menu_remove){
-                            dbhandler.removebookmark(bookmarklist.get(position).getUserid(),bookmarklist.get(position).getPostid());
-                            bookmarklist.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, bookmarklist.size());
+                            //remove post from user's post list
                             Toast.makeText(context, "Post removed!", Toast.LENGTH_SHORT).show();
                             return true;
                         }else if(menuItem.getItemId() == R.id.bm_menu_report){
@@ -86,37 +89,20 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return bookmarklist.size();
+        return postList.size();
     }
 
-    public void setData(ArrayList<Bookmark> bookmarks, Context context, OnBookmarkListener listener){
-        this.bookmarklist = bookmarks;
-        this.context = context;
-        this.listener = listener;
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView iv_profile_picture;
-        TextView tv_content;
-        OnBookmarkListener listener;
-        ImageButton btn_more;
-
-        public ViewHolder(@NonNull View itemView, OnBookmarkListener listener) {
+    static class ProfileViewHolder extends RecyclerView.ViewHolder{
+        TextView tvUsername;
+        TextView tvDate;
+        TextView tvTitle;
+        ImageButton btnMore;
+        public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-            iv_profile_picture = itemView.findViewById(R.id.iv_profile_picture_bm);
-            tv_content = itemView.findViewById(R.id.tv_content_bm);
-            this.listener = listener;
-            btn_more = itemView.findViewById(R.id.btn_more1);
-            itemView.setOnClickListener(this);
+            tvUsername = itemView.findViewById(R.id.tv_username);
+            tvDate = itemView.findViewById(R.id.tv_date);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            btnMore = itemView.findViewById(R.id.btn_more1);
         }
-
-        @Override
-        public void onClick(View view) {
-            listener.OnBookmarkClick(getAdapterPosition());
-        }
-    }
-
-    public interface OnBookmarkListener{
-        void OnBookmarkClick(int position);
     }
 }

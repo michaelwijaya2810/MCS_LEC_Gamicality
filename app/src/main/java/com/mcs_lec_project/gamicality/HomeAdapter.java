@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
-    ArrayList<Home> homes = new ArrayList<Home>();
+    ArrayList<Home> homes = new ArrayList<>();
     Context context;
     DBHandler dbhandler;
     int currentuser;
@@ -29,7 +29,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.home_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_post_options_menu, parent, false);
         return new ViewHolder(view);
     }
 
@@ -38,7 +38,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 //        int imageId = homes.get(position).getImageId();
         dbhandler = new DBHandler(context);
         User author = dbhandler.getauthorfrompost(homes.get(position).getAuthorid());
-
         String name = homes.get(position).getName();
         String date = homes.get(position).getDate();
 
@@ -46,6 +45,8 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.tv_name.setText(author.getUsername());
         holder.tv_date.setText(date);
         holder.tv_title.setText(name);
+
+
 
     //Ketika post di kilk
         holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -63,35 +64,40 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(context, holder.btn_more);
-                popupMenu.inflate(R.menu.more_options);
+                popupMenu.inflate(R.menu.menu_post_list);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.more_share:
-                                Toast.makeText(context, "Successfully shared", Toast.LENGTH_SHORT).show();
-                                break;
-//                            case R.id.more_bookmark:
-//
-//
-//                                break;
-                            case R.id.more_report:
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setMessage("Report this post?");
-                                builder.setPositiveButton("REPORT", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(context, "Report submitted", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                    }
-                                });
-                                builder.create();
-                                builder.show();
-                                break;
+                        if(menuItem.getItemId() == R.id.post_menu_share){
+                            Toast.makeText(context, "Successfully shared", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }else if(menuItem.getItemId() == R.id.post_menu_bookmark){
+                            //QC dong apa ini logic nya udh bener atau nggak? thx (MW)
+
+                            if(dbhandler.addbookmark(currentuser, homes.get(position).getId(),context)){
+                                Toast.makeText(context, "Post bookmarked!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(context,"Post already bookmarked",Toast.LENGTH_SHORT).show();
+                            }
+
+                            return true;
+                        }else if(menuItem.getItemId() == R.id.post_menu_report){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("Report this post?");
+                            builder.setPositiveButton("REPORT", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Toast.makeText(context, "Report submitted", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            });
+                            builder.create();
+                            builder.show();
+                            return true;
                         }
                         return false;
                     }
@@ -121,13 +127,11 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             iv_profile_picture = itemView.findViewById(R.id.iv_profile_picture_hm);
             tv_name = itemView.findViewById(R.id.tv_username);
             tv_date = itemView.findViewById(R.id.tv_date);
             tv_title = itemView.findViewById(R.id.tv_title);
             btn_more = itemView.findViewById(R.id.btn_more1);
-
         }
     }
 }

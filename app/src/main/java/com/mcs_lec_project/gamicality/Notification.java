@@ -3,7 +3,6 @@ package com.mcs_lec_project.gamicality;
 public class Notification {
     private int id;
     private int imageId;
-//    private String user;
     private String content;
 
     public int getImageId() {

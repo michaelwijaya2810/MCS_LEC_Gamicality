@@ -8,21 +8,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        setContentView(R.layout.activity_register);
         DBHandler dbhandler = new DBHandler(this);
         Button registerbtn = findViewById(R.id.RegisterBtn);
-
-
 
         registerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,41 +27,39 @@ public class Register extends AppCompatActivity {
                 EditText passwordconfirmtxt = findViewById(R.id.RegisPassconfirm);
                 EditText emailtxt = findViewById(R.id.RegisEmail);
 
+                String username = usernametxt.getEditableText().toString();
+                String password = passwordtxt.getEditableText().toString();
+                String passwordconfirm = passwordconfirmtxt.getEditableText().toString();
+                String email = emailtxt.getEditableText().toString();
 
-                String username = usernametxt.getText().toString();
-                String password = passwordtxt.getText().toString();
-                String passwordconfirm = passwordconfirmtxt.getText().toString();
-                String email = emailtxt.getText().toString();
-
-                if(!password.equals(passwordconfirm))
+                if (username.isEmpty())
                 {
-                    Toast.makeText(context, "password does not match",Toast.LENGTH_SHORT).show();
-                }
-                else if(password.isEmpty())
-                {
-                    Toast.makeText(context, "password cannot be empty",Toast.LENGTH_SHORT).show();
-                }
-                else if (username.isEmpty())
-                {
-                    Toast.makeText(context, "Username cannot be empty",Toast.LENGTH_SHORT).show();
+                    usernametxt.setError("Username is empty");
                 }
                 else if(email.isEmpty())
                 {
-                    Toast.makeText(context, "email cannot be empty",Toast.LENGTH_SHORT).show();
+                    emailtxt.setError("Email is empty");
+                }
+                else if(password.isEmpty())
+                {
+                    passwordtxt.setError("Password is empty");
+                }
+                else if(passwordconfirm.isEmpty())
+                {
+                    passwordconfirmtxt.setError("Confirm your password!");
+                }
+                else if(!passwordconfirm.equals(password))
+                {
+                    passwordconfirmtxt.setError("Password does not match");
                 }
                 else
                 {
                     dbhandler.insertuser(username,password,email);
-                    Intent intent = new Intent(Register.this,Login.class);
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    Toast.makeText(context, "Account Registered!",Toast.LENGTH_SHORT).show();
                     startActivity(intent);
-                    Toast.makeText(context, "user created",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-
-
-
     }
 }

@@ -1,7 +1,5 @@
 package com.mcs_lec_project.gamicality;
 
-import java.util.ArrayList;
-
 public class Post {
     int postId;
     int userId;

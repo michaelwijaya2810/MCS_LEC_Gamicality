@@ -1,6 +1,5 @@
 package com.mcs_lec_project.gamicality;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ public class GameListAdapter  extends RecyclerView.Adapter<GameListAdapter.ViewH
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
-        View view = LayoutInflater.from(context).inflate(R.layout.game_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_game_list, parent, false);
         return new ViewHolder(view);
 
     }

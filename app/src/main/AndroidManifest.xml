@@ -10,15 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gamicality">
         <activity android:name=".ReplyActivity"
-            android:label=""
             android:parentActivityName=".PostDetailActivity" />
         <activity android:name=".AddPostActivity"
-            android:label=""
             android:parentActivityName=".PostDetailActivity" />
         <activity android:name=".RegisterActivity"
-            android:label=""/>
-        <activity android:name=".LoginActivity"
-            android:label="">
+            android:parentActivityName=".LoginActivity"/>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,16 +26,14 @@
         <activity android:name=".NotificationActivity"
             android:label="Notification"/>
         <activity android:name=".PostDetailActivity"
-            android:label=""/>
-        <activity android:name=".GameListActivity"
-            android:label="Game List">
-
+            android:parentActivityName=".PostIndexActivity"/>
+        <activity android:name=".GameListActivity">
         </activity>
         <activity android:name=".PostIndexActivity"
-            android:label="Gamicality"/>
-        <activity android:name=".ProfileActivity"
-            android:label=""/>
+            android:label="Gamicality"
+            android:parentActivityName=".GameListActivity"/>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".EditProfileActivity"
-            android:label=""/>
+            android:parentActivityName=".ProfileActivity"/>
     </application>
 </manifest>

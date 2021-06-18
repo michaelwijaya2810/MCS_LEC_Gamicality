@@ -29,13 +29,16 @@ public class AddPostActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.cancel_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("");
+        actionBar.setTitle("Add New Post");
 
         etTitle = findViewById(R.id.et_title);
         etBody = findViewById(R.id.et_body);
 
         //get intent from game selected for gameid
         intent = getIntent();
+        //menunggu intent dari userid dan game id dari home_activity
+        userid = intent.getIntExtra("userid",0);
+        gameid = intent.getIntExtra("gameid",0);
 
     }
 
@@ -56,10 +59,6 @@ public class AddPostActivity extends AppCompatActivity {
                 if(!body.isEmpty()){
 //                    get the author's info
 
-                    //menunggu intent dari userid dan game id dari home_activity
-                    userid = intent.getIntExtra("userid",0);
-                    gameid = intent.getIntExtra("gameid",0);
-
 
 //                    insert new post to DB
                     db.addPost(userid,gameid,title,body);
@@ -79,6 +78,12 @@ public class AddPostActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

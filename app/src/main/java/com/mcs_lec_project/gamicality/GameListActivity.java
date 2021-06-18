@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,9 @@ public class GameListActivity extends AppCompatActivity{
         GridLayoutManager gridLayoutManager =
                 new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         rv_Game.setLayoutManager(gridLayoutManager);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Gamicality");
     }
 
     // Menu

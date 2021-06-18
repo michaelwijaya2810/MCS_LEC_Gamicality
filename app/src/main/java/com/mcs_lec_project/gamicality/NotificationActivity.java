@@ -1,6 +1,7 @@
 package com.mcs_lec_project.gamicality;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,10 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Notifications");
+
         dbhandler = new DBHandler(this);
         Intent intent = getIntent();
         currentuser = intent.getIntExtra("userid",0);
@@ -53,6 +59,7 @@ public class NotificationActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 notificationslist.remove(viewHolder.getAdapterPosition());
                 notificationAdapter.notifyDataSetChanged();
+                Toast.makeText(NotificationActivity.this, "Notification removed!", Toast.LENGTH_SHORT).show();
             }
         };
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(rv_notification);
@@ -69,6 +76,9 @@ public class NotificationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent();
         if(item.getItemId() == R.id.action_profile){
+            intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("userid", currentuser);
+            startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(this, GameListActivity.class);

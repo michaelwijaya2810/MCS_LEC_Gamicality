@@ -26,13 +26,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
         DBHandler dbhandler = new DBHandler(context);
-        int imageId = notifications.get(position).getImageId();
 
         User user = dbhandler.getauthorfrompost(notifications.get(position).getId());
 
         String content = user.getUsername() +" replied to your post :"+ notifications.get(position).getContent();
-
-        holder.iv_profile_picture.setImageResource(imageId);
         holder.tv_content.setText(content);
 
     }

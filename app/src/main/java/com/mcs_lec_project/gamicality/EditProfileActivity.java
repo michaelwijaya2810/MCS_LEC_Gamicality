@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EditProfileActivity extends AppCompatActivity {
     EditText usernameInput;
@@ -56,6 +57,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     Intent intent1 = new Intent(EditProfileActivity.this,ProfileActivity.class);
                     intent1.putExtra("userid",currentuser);
                     startActivity(intent1);
+                    Toast.makeText(EditProfileActivity.this, "Account Info Updated!", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

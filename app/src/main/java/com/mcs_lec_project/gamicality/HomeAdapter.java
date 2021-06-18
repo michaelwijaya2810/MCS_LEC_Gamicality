@@ -57,7 +57,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             intent.putExtra("userid",currentuser);
             intent.putExtra("postid",homes.get(position).getId());
             context.startActivity(intent);
-            ((Activity)context).finish();
         }
      });
 

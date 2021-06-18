@@ -1,6 +1,7 @@
 package com.mcs_lec_project.gamicality;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,6 +45,9 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
             rv_bookmark.setLayoutManager(new LinearLayoutManager(this));
         }
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Bookmarks");
+
     }
 
     @Override
@@ -63,8 +67,11 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent();
+        Intent intent;
         if(item.getItemId() == R.id.action_profile){
+            intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("userid",currentuser);
+            startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(this, GameListActivity.class);

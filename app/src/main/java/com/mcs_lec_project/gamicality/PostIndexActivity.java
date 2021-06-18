@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +49,11 @@ public class PostIndexActivity extends AppCompatActivity {
             rv_home.setLayoutManager(new LinearLayoutManager(this));
         }
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.back_icon);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Post List");
+
     //Add Button intent AddPost
     fab.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -56,7 +62,6 @@ public class PostIndexActivity extends AppCompatActivity {
             intent.putExtra("userid",currentuser);
             intent.putExtra("gameid",currentgameid);
             startActivity(intent);
-            finish();
           }
         });
     }
@@ -72,6 +77,9 @@ public class PostIndexActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent();
         if(item.getItemId() == R.id.action_profile){
+            intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("userid",currentuser);
+            startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(this, GameListActivity.class);
@@ -95,5 +103,18 @@ public class PostIndexActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, GameListActivity.class);
+        intent.putExtra("userid",currentuser);
+        startActivity(intent);
     }
 }

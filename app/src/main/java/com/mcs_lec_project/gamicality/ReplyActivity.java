@@ -71,6 +71,12 @@ public class ReplyActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = getIntent();
         userid = intent.getIntExtra("userid",0);

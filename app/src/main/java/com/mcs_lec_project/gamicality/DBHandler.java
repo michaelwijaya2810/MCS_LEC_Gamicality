@@ -88,6 +88,7 @@ public class DBHandler {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
         db.execSQL("delete from Posts where userid ='"+userid+"' and postid = '"+postid+"'");
+        removefrombookmarklist(postid);
     }
 
     public Game getgamefrompost(int gameid)
@@ -215,6 +216,11 @@ public class DBHandler {
         db.execSQL("delete from bookmarklist where userid == '"+userid+"' and postid=='"+postid+"'");
     }
 
+    public void removefrombookmarklist(int postid){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        db.execSQL("delete from bookmarklist where postid == '"+postid+"'");
+    }
+
     public ArrayList<Notification> getnotificationlist(int userid)
     {
         ArrayList<Notification> notificationlist= new ArrayList<>();
@@ -234,7 +240,7 @@ public class DBHandler {
                 Post post = getpost(cursor.getInt(1));
                 Notification notification = new Notification();
                 notification.setId(cursor.getInt(0));
-                notification.setContent(post.getBody());
+                notification.setContent(post.getTitle());
                 notificationlist.add(notification);
             }
             while (cursor.moveToNext());

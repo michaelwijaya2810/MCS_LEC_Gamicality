@@ -105,6 +105,12 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_post_list, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         if(currentuserid == post.getUserId()){
             menu.findItem(R.id.post_menu_remove).setVisible(true);
         }
@@ -160,9 +166,9 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
             intent.putExtra("userid", currentuserid);
             intent.putExtra("gameid", game.getGameid());
             dbhandler.removepost(currentuserid,postid);
+            Toast.makeText(this, "Post Removed!", Toast.LENGTH_SHORT).show();
             startActivity(intent);
-            finish();
-
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -197,6 +203,12 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         rvReplyList = findViewById(R.id.rv_reply_list);
         fabReply = findViewById(R.id.fab_reply);
         Log.i(TAG, "Views ready!");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

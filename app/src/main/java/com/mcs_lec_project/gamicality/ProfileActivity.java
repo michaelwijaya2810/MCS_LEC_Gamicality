@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.back_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("");
+        actionBar.setTitle("Profile");
 
         username = findViewById(R.id.profilename1);
         postCount = findViewById(R.id.postcount);
@@ -67,14 +67,22 @@ public class ProfileActivity extends AppCompatActivity {
             intent = new Intent(this, EditProfileActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
-            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
+//        Intent intent = new Intent(this, GameListActivity.class);
+//        intent.putExtra("userid",currentuser);
+//        startActivity(intent);
         finish();
     }
 }

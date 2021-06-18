@@ -41,6 +41,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     DBHandler dbhandler;
     ArrayList<ReplyPost> replylist;
     ReplyAdapter adapter;
+    Game game;
     public PostDetailActivity() {
     }
 
@@ -65,7 +66,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         post = dbhandler.getpost(postid);
 
 //      get game object referenced from gameid in post
-        Game game = dbhandler.getgamefrompost(post.getGameId());
+        game = dbhandler.getgamefrompost(post.getGameId());
 
 //      get post's author user from Post's UserID FK??
         User user = dbhandler.getauthorfrompost(post.getUserId());
@@ -155,6 +156,13 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
             //remove post from postlist arraylist in PostIndexActivity
             //notify data change to the recyclerview
             //intent to PostIndexActivity
+            Intent intent = new Intent(this,PostIndexActivity.class);
+            intent.putExtra("userid", currentuserid);
+            intent.putExtra("gameid", game.getGameid());
+            dbhandler.removepost(currentuserid,postid);
+            startActivity(intent);
+            finish();
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -189,5 +197,14 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         rvReplyList = findViewById(R.id.rv_reply_list);
         fabReply = findViewById(R.id.fab_reply);
         Log.i(TAG, "Views ready!");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,PostIndexActivity.class);
+        intent.putExtra("userid",currentuserid);
+        intent.putExtra("gameid",game.getGameid());
+        startActivity(intent);
+        finish();
     }
 }

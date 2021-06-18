@@ -33,28 +33,38 @@ public class DBHandler {
     {
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         Cursor cursor = null;
-        ArrayList<User> userlist = new ArrayList<User>();
+        ArrayList<User> userlist = new ArrayList<>();
 
-        if(db!=null)
+        Cursor check;
+
+        check = db.rawQuery("select count(Userid) from Users",null);
+        check.moveToFirst();
+
+        if(check.getInt(0)>0)
         {
-            cursor = db.rawQuery("select * from " +"Users",null);
-        }
-        cursor.moveToFirst();
-
-        do {
             if(db!=null)
             {
-                User user = new User();
-                user.setUserid(cursor.getInt(0));
-                user.setUsername(cursor.getString(1));
-                user.setPassword(cursor.getString(2));
-                userlist.add(user);
+                cursor = db.rawQuery("select * from " +"Users",null);
             }
 
-        }
-        while(cursor.moveToNext());
+            cursor.moveToFirst();
 
-        cursor.close();
+            do {
+                if(db!=null)
+                {
+                    User user = new User();
+                    user.setUserid(cursor.getInt(0));
+                    user.setUsername(cursor.getString(1));
+                    user.setPassword(cursor.getString(2));
+                    userlist.add(user);
+                }
+
+            }
+            while(cursor.moveToNext());
+            cursor.close();
+        }
+
+
         return userlist;
     }
 

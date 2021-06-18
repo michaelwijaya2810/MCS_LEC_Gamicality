@@ -20,7 +20,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView username;
     TextView postCount;
     RecyclerView profileRv;
-
+    int currentuser;
+    DBHandler dbhandler;
     //pake Post atau Home?
     ArrayList<Post> postList;
 
@@ -28,6 +29,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Intent intent = getIntent();
+        dbhandler = new DBHandler(this);
+
+        currentuser = intent.getIntExtra("userid",0);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.back_icon);
@@ -37,8 +42,14 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.profilename1);
         postCount = findViewById(R.id.postcount);
         profileRv = findViewById(R.id.profilerecycleview);
+        User user = dbhandler.getcurrentuser(currentuser);
 
-        ProfileAdapter adapter = new ProfileAdapter(this, postList);
+        username.setText(user.getUsername());
+        postCount.setText(String.valueOf(dbhandler.getuserpostcount(currentuser))+" Post Count");
+
+        postList = dbhandler.getuserpostlist(currentuser);
+
+        ProfileAdapter adapter = new ProfileAdapter(this, postList,currentuser);
         profileRv.setAdapter(adapter);
         profileRv.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -54,7 +65,9 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_btn_edit_profile){
             intent = new Intent(this, EditProfileActivity.class);
+            intent.putExtra("userid",currentuser);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

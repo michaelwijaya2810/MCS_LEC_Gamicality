@@ -1,8 +1,10 @@
 package com.mcs_lec_project.gamicality;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +23,15 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     //pake Post atau Home?
     ArrayList<Post> postList;
     Context context;
-
-    public ProfileAdapter(Context context, ArrayList<Post> postList){
+    DBHandler dbhandler;
+    int currentuser;
+    int postid;
+    String username;
+    Intent intent;
+    public ProfileAdapter(Context context, ArrayList<Post> postList,int currentuser){
         this.context = context;
         this.postList = postList;
+        this.currentuser = currentuser;
     }
 
     @NonNull
@@ -32,6 +39,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public ProfileAdapter.ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View profileView = inflater.inflate(R.layout.item_post_options_menu, parent, false);
+        dbhandler = new DBHandler(context);
+        User user = dbhandler.getauthorfrompost(currentuser);
+
+        username = user.getUsername();
+
+
         return new ProfileViewHolder(profileView);
     }
 
@@ -39,11 +52,21 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public void onBindViewHolder(@NonNull ProfileAdapter.ProfileViewHolder holder, int position) {
         //get post information from DB (username, post date, post title)
         //setText all TextView
+        holder.tvUsername.setText(username);
+        holder.tvTitle.setText(postList.get(position).getTitle());
+        holder.tvDate.setText(postList.get(position).getPostDate());
+        postid = postList.get(position).getPostId();
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //intent to PostDetailActivity when user click on the post in the list
+                intent = new Intent(context,PostDetailActivity.class);
+                intent.putExtra("userid",currentuser);
+                intent.putExtra("postid",postList.get(position).getPostId());
+                intent.putExtra("gameid",postList.get(position).getGameId());
+                context.startActivity(intent);
             }
         });
         holder.btnMore.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +82,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                             return true;
                         }else if(menuItem.getItemId() == R.id.bm_menu_remove){
                             //remove post from user's post list
+                            dbhandler.removepost(currentuser,postid);
+                            postList.remove(position);
+                            notifyDataSetChanged();
                             Toast.makeText(context, "Post removed!", Toast.LENGTH_SHORT).show();
                             return true;
                         }else if(menuItem.getItemId() == R.id.bm_menu_report){

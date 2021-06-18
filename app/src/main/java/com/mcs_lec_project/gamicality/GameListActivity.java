@@ -51,6 +51,9 @@ public class GameListActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
         if(item.getItemId() == R.id.action_profile){
+            intent = new Intent(this,ProfileActivity.class);
+            intent.putExtra("userid",currentuser);
+            startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_home){
             intent = new Intent(this, GameListActivity.class);

@@ -1,5 +1,6 @@
 package com.mcs_lec_project.gamicality;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,6 +57,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             intent.putExtra("userid",currentuser);
             intent.putExtra("postid",homes.get(position).getId());
             context.startActivity(intent);
+            ((Activity)context).finish();
         }
      });
 
@@ -73,7 +75,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                             return true;
                         }else if(menuItem.getItemId() == R.id.post_menu_bookmark){
                             //QC dong apa ini logic nya udh bener atau nggak? thx (MW)
-
+                            //harusnya
                             if(dbhandler.addbookmark(currentuser, homes.get(position).getId(),context)){
                                 Toast.makeText(context, "Post bookmarked!", Toast.LENGTH_SHORT).show();
                             }else{

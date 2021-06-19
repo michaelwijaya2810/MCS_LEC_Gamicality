@@ -1,0 +1,16 @@
+Contributors:
+
+Irfan Ramadhiya Abdighani Suardhika - 2301856062 
+- Fitur bookmark dan notification
+
+Jason Laurentinus - 2301874866 
+- Fitur Home game list dan post list
+
+Michael Wijaya - 2301858465 
+- Fitur Post detail, add new post, add reply
+
+Muhammad Dzaki Shidqi - 2301923104 
+- Fitur Profile activity
+
+Riksen Setiawan - 2301850866 
+- Fitur Login dan Registration, Database SQLite aplikasi

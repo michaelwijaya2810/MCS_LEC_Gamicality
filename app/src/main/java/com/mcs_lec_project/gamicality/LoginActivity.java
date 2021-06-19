@@ -56,10 +56,14 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this,GameListActivity.class);
                             intent.putExtra("userid", userlist.get(x).Userid);
                             startActivity(intent);
+                            finish();
+                            break;
                         }
                         x--;
                     }
-                    Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                    if(x < 0){
+                        Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

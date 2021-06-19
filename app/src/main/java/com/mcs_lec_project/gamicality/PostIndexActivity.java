@@ -49,10 +49,12 @@ public class PostIndexActivity extends AppCompatActivity {
             rv_home.setLayoutManager(new LinearLayoutManager(this));
         }
 
+        Game game = dbhandler.getgamefrompost(currentgameid);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.back_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Post List");
+        actionBar.setTitle(game.getTitle());
 
     //Add Button intent AddPost
     fab.setOnClickListener(new View.OnClickListener() {

@@ -58,8 +58,6 @@ public class AddPostActivity extends AppCompatActivity {
             if(!title.isEmpty()){
                 if(!body.isEmpty()){
 //                    get the author's info
-
-
 //                    insert new post to DB
                     db.addPost(userid,gameid,title,body);
                     Toast.makeText(this, "Post created!", Toast.LENGTH_SHORT).show();

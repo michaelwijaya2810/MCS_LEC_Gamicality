@@ -1,5 +1,6 @@
 package com.mcs_lec_project.gamicality;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,6 +20,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         TextView registerhere =  findViewById(R.id.registerhere);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
 
         Button loginbtn = findViewById(R.id.loginbtn);
         DBHandler db = new DBHandler(this);

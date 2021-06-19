@@ -1,5 +1,6 @@
 package com.mcs_lec_project.gamicality;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -18,6 +19,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         DBHandler dbhandler = new DBHandler(this);
         Button registerbtn = findViewById(R.id.RegisterBtn);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
 
         registerbtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,28 +28,13 @@ public class PostIndexActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_index);
         dbhandler = new DBHandler(this);
         RecyclerView rv_home = findViewById(R.id.rv_home);
-       HomeAdapter homeAdapter = new HomeAdapter();
+        HomeAdapter homeAdapter = new HomeAdapter();
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
         Intent intent = getIntent();
         currentuser = intent.getIntExtra("userid",0);
         currentgameid = intent.getIntExtra("gameid",0);
 
         postlist = dbhandler.getgamepostlist(currentgameid);
-
-        // sample data
-//        Home home = new Home();
-//        home.setImageId(R.drawable.profile_picture3);
-//        home.setName("User12345");
-//        home.setDate("07-06-2021");
-//        home.setContent("Genshin Update Patch 1.6");
-//        homes.add(home);
-//
-//        Home home1 = new Home();
-//        home1.setImageId(R.drawable.profile_picture1);
-//        home1.setName("UserGenshin");
-//        home1.setDate("13-06-2021");
-//        home1.setContent("Top 10 best DPS Character Genshin");
-//        homes.add(home1);
 
         // dividers
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
@@ -63,6 +49,10 @@ public class PostIndexActivity extends AppCompatActivity {
             rv_home.setLayoutManager(new LinearLayoutManager(this));
         }
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.back_icon);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Post List");
 
     //Add Button intent AddPost
     fab.setOnClickListener(new View.OnClickListener() {
@@ -72,17 +62,14 @@ public class PostIndexActivity extends AppCompatActivity {
             intent.putExtra("userid",currentuser);
             intent.putExtra("gameid",currentgameid);
             startActivity(intent);
-            finish();
-
           }
         });
     }
 
-
     // Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_list, menu);
+        getMenuInflater().inflate(R.menu.menu_main_list, menu);
         return true;
     }
 
@@ -90,28 +77,44 @@ public class PostIndexActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent();
         if(item.getItemId() == R.id.action_profile){
-            return true;
-        }else if(item.getItemId() == R.id.menu_home){
-            intent = new Intent(PostIndexActivity.this, PostIndexActivity.class);
+            intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
-        }else if(item.getItemId() == R.id.menu_game_list){
-            intent = new Intent(PostIndexActivity.this, GameListActivity.class);
+        }else if(item.getItemId() == R.id.menu_home){
+            intent = new Intent(this, GameListActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_bookmarks){
-            intent = new Intent(PostIndexActivity.this, BookmarkActivity.class);
+            intent = new Intent(this, BookmarkActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
         }else if(item.getItemId() == R.id.menu_notif){
-            intent = new Intent(PostIndexActivity.this, NotificationActivity.class);
+            intent = new Intent(this, NotificationActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
+        }else if(item.getItemId() == R.id.menu_logout){
+            intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, GameListActivity.class);
+        intent.putExtra("userid",currentuser);
+        startActivity(intent);
     }
 }

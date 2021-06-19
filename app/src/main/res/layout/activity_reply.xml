@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:hint=" "
-        app:boxBackgroundColor="#161616"
-        app:boxStrokeColor="#E0B13F"
+        app:boxBackgroundColor="@color/mainbackground"
+        app:boxStrokeColor="@color/mainyellow"
         app:boxStrokeWidth="1dp"
-        android:textColorHint="#9C9C9C"
+        android:textColorHint="@color/hint_color"
         android:layout_marginTop="24dp"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +25,9 @@
             android:layout_height="wrap_content"
             android:hint="What do you want to write here..."
             android:textColorHint="@color/hint_color"
-            android:textColor="#9C9C9C"/>
+            android:fontFamily="@font/opensansregular"
+            android:textSize="18sp"
+            android:textColor="@color/white_text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

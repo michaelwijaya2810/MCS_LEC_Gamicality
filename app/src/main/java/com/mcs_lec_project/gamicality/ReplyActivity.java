@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -33,8 +32,8 @@ public class ReplyActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_post_button, menu);
-
+        getMenuInflater().inflate(R.menu.menu_single_action_button, menu);
+        menu.findItem(R.id.menu_btn_post).setVisible(true);
         return true;
     }
 
@@ -69,6 +68,12 @@ public class ReplyActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.cancel_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

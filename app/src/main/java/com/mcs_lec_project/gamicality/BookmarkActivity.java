@@ -1,6 +1,7 @@
 package com.mcs_lec_project.gamicality;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
-
-
 
 public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapter.OnBookmarkListener {
 
@@ -33,21 +32,6 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
 
         bookmarklist = dbhandler.getbookmarklist(currentuser);
 
-        // sample data
-//        Bookmark bookmark = new Bookmark();
-//        bookmark.setImageId(R.drawable.profile_picture3);
-//        bookmark.setContent("Hunter's Fury Build - turn every SMG to monster");
-//        bookmarks.add(bookmark);
-//
-//        Bookmark bookmark1 = new Bookmark();
-//        bookmark1.setImageId(R.drawable.profile_picture1);
-//        bookmark1.setContent("Genshin Impact Fan Club - top 10 best character");
-//        bookmarks.add(bookmark1);
-
-
-
-
-
         // dividers
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         dividerItemDecoration.setDrawable(this.getResources().getDrawable(R.drawable.dividers));
@@ -60,6 +44,9 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
             rv_bookmark.setAdapter(bookmarkAdapter);
             rv_bookmark.setLayoutManager(new LinearLayoutManager(this));
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Bookmarks");
 
     }
 
@@ -74,22 +61,20 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
     // Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_list, menu);
+        getMenuInflater().inflate(R.menu.menu_main_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent();
+        Intent intent;
         if(item.getItemId() == R.id.action_profile){
-            return true;
-        }else if(item.getItemId() == R.id.menu_home){
-            intent = new Intent(BookmarkActivity.this, MainActivity.class);
+            intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
-        }else if(item.getItemId() == R.id.menu_game_list){
-            intent = new Intent(BookmarkActivity.this, GameListActivity.class);
+        }else if(item.getItemId() == R.id.menu_home){
+            intent = new Intent(this, GameListActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
@@ -102,6 +87,11 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
             intent = new Intent(this, NotificationActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
+        }else if(item.getItemId() == R.id.menu_logout){
+            intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

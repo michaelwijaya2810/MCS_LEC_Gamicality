@@ -8,14 +8,14 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_home"
-        android:title="Home"/>
-    <item
-        android:id="@+id/menu_game_list"
-        android:title="Game List"/>
+        android:title="Home" />
     <item
         android:id="@+id/menu_bookmarks"
         android:title="Bookmarks"/>
     <item
         android:id="@+id/menu_notif"
         android:title="Notifications"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:title="Logout"/>
 </menu>

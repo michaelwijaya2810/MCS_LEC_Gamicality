@@ -13,23 +13,27 @@
             android:parentActivityName=".PostDetailActivity" />
         <activity android:name=".AddPostActivity"
             android:parentActivityName=".PostDetailActivity" />
-        <activity android:name=".Register" />
-        <activity android:name=".Login" >
+        <activity android:name=".RegisterActivity"
+            android:parentActivityName=".LoginActivity"/>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".BookmarkActivity" />
-        <activity android:name=".NotificationActivity" />
-        <activity android:name=".PostDetailActivity" />
+        <activity android:name=".BookmarkActivity"
+            android:label="Bookmark"/>
+        <activity android:name=".NotificationActivity"
+            android:label="Notification"/>
+        <activity android:name=".PostDetailActivity"
+            android:parentActivityName=".PostIndexActivity"/>
         <activity android:name=".GameListActivity">
-
         </activity>
-        <activity android:name=".PostIndexActivity"/>
-        <activity
-            android:name=".MainActivity"
-            android:label="Gamicality" />
+        <activity android:name=".PostIndexActivity"
+            android:label="Gamicality"
+            android:parentActivityName=".GameListActivity"/>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".EditProfileActivity"
+            android:parentActivityName=".ProfileActivity"/>
     </application>
 </manifest>

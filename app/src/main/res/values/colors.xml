@@ -7,7 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="mainyellow">#E0B13F</color>
-    <color name="hint_color">#9C9C9C</color>
-    <color name="mtrl_textinput_default_box_stroke_color">#E0B13F</color>
+    <color name="mainyellow">#FFE0B13F</color>
+    <color name="secondaryorange">#FFFF6D10</color>
+    <color name="hint_color">#FF9C9C9C</color>
+    <color name="white_text">#FFDEDEDE</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#FFE0B13F</color>
+    <color name="mainbackground">#FF161616</color>
+    <color name="dark_grey">#FF2B2B2B</color>
+    <color name="secondary_grey">#FFB2B2B2</color>
 </resources>

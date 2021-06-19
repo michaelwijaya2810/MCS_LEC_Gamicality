@@ -10,19 +10,17 @@ import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class DBHandler {
-
     DBHelper dbhelper;
-
 
     public DBHandler(Context context) {
         dbhelper = new DBHelper(context);
     }
-
 
     public void insertuser(String username,String password,String email)
     {
@@ -56,18 +54,13 @@ public class DBHandler {
         }
         while(cursor.moveToNext());
 
-
         cursor.close();
-
         return userlist;
     }
-
-
 
     public void addPost(int userid,int gameid,String title, String body)
     {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-
         db.execSQL("insert into Posts(userid,gameid,title,body) values('"+userid+"','"+gameid+"','"+title+"','"+body+"' )");
     }
 
@@ -86,8 +79,16 @@ public class DBHandler {
         post.setBody(cursor.getString(4));
         post.setPostDate(cursor.getString(5));
 
-
+        cursor.close();
         return post;
+    }
+
+    public void removepost(int userid,int postid)
+    {
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        db.execSQL("delete from Posts where userid ='"+userid+"' and postid = '"+postid+"'");
+        removefrombookmarklist(postid);
     }
 
     public Game getgamefrompost(int gameid)
@@ -100,7 +101,9 @@ public class DBHandler {
         cursor = db.rawQuery("select * from Games where gameid == '"+gameid+"'  ",null);
         cursor.moveToFirst();
         game.setTitle(cursor.getString(1));
+        game.setGameid(cursor.getInt(0));
 
+        cursor.close();
         return game;
     }
 
@@ -114,11 +117,12 @@ public class DBHandler {
         cursor = db.rawQuery("select * from Users where Userid == '"+userid+"'  ",null);
         cursor.moveToFirst();
         user.setUsername(cursor.getString(1));
+
         cursor.close();
         return user;
     }
 
-    public void addbookmark(int userid,int postid, Context context)
+    public boolean addbookmark(int userid,int postid, Context context)
     {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
@@ -128,14 +132,15 @@ public class DBHandler {
 
         if(cursor.getCount()>0 &&cursor.getInt(0) == userid && cursor.getInt(1)== postid)
         {
-
-          Toast.makeText(context,"already bookmarked",Toast.LENGTH_SHORT).show();
+          cursor.close();
+          return false;
         }
         else
         {
             db.execSQL("insert into Bookmarklist(userid,postid) values('"+userid+"', '"+postid+"')");
+            cursor.close();
+            return true;
         }
-
 
     }
 
@@ -151,19 +156,12 @@ public class DBHandler {
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         Cursor check;
 
-
         check = db.rawQuery("select count(userid) from Replies where postid = '"+postid+"'",null);
         check.moveToFirst();
-        if(check.getInt(0)<=0)
-        {
-
-            return replylist;
-        }
-        else
-        {
+        if (check.getInt(0) > 0) {
             Cursor cursor;
 
-            cursor = db.rawQuery("select * from Replies where postid == '"+postid+"'  ",null);
+            cursor = db.rawQuery("select * from Replies where postid == '" + postid + "'  ", null);
             cursor.moveToFirst();
 
             do {
@@ -174,12 +172,12 @@ public class DBHandler {
                 replypost.setReplyDate(cursor.getString(3));
                 replylist.add(replypost);
             }
-            while(cursor.moveToNext());
+            while (cursor.moveToNext());
 
-            check.close();
             cursor.close();
-            return replylist;
         }
+        check.close();
+        return replylist;
     }
 
     public ArrayList<Bookmark> getbookmarklist(int userid)
@@ -187,19 +185,11 @@ public class DBHandler {
         ArrayList<Bookmark> bookmarklist = new ArrayList<>();
         SQLiteDatabase db = dbhelper.getReadableDatabase();
 
-
         Cursor check;
         check = db.rawQuery("select count(userid) from bookmarklist where userid == '"+userid+"'",null);
         check.moveToFirst();
 
-
-
-        if(check.getInt(0)<=0)
-        {
-            check.close();
-            return bookmarklist;
-        }
-        else {
+        if (check.getInt(0) > 0) {
             Cursor cursor;
 
             cursor = db.rawQuery("select * from bookmarklist where userid == '" + userid + "'  ", null);
@@ -213,18 +203,22 @@ public class DBHandler {
                 bookmarklist.add(bookmark);
             }
             while (cursor.moveToNext());
-            check.close();
+
             cursor.close();
         }
+        check.close();
         return bookmarklist;
     }
-
-
 
     public void removebookmark(int userid,int postid)
     {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         db.execSQL("delete from bookmarklist where userid == '"+userid+"' and postid=='"+postid+"'");
+    }
+
+    public void removefrombookmarklist(int postid){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        db.execSQL("delete from bookmarklist where postid == '"+postid+"'");
     }
 
     public ArrayList<Notification> getnotificationlist(int userid)
@@ -236,32 +230,24 @@ public class DBHandler {
         check = db.rawQuery("select count(Replies.userid) from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.userid "  ,null);
         check.moveToFirst();
 
-
-
-        if(check.getInt(0)<=0)
-        {
-            check.close();
-            return notificationlist;
-        }
-        else {
+        if (check.getInt(0) > 0) {
             Cursor cursor;
 
-            cursor = db.rawQuery("select * from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != "+userid+" and '"+userid+"' = Posts.userid", null);
+            cursor = db.rawQuery("select * from Replies join Posts on Replies.postid = Posts.postid where Replies.userid != " + userid + " and '" + userid + "' = Posts.userid", null);
             cursor.moveToFirst();
 
             do {
                 Post post = getpost(cursor.getInt(1));
                 Notification notification = new Notification();
                 notification.setId(cursor.getInt(0));
-                notification.setContent(post.getBody());
+                notification.setContent(post.getTitle());
                 notificationlist.add(notification);
             }
             while (cursor.moveToNext());
-            check.close();
+
             cursor.close();
         }
-
-
+        check.close();
         return notificationlist;
     }
 
@@ -271,19 +257,11 @@ public class DBHandler {
 
         SQLiteDatabase db = dbhelper.getReadableDatabase();
 
-
         Cursor check;
         check = db.rawQuery("select count(postid) from Posts where gameid == '"+gameid+"'",null);
         check.moveToFirst();
 
-
-
-        if(check.getInt(0)<=0)
-        {
-
-            return postlist;
-        }
-        else {
+        if (check.getInt(0) > 0) {
             Cursor cursor;
 
             cursor = db.rawQuery("select * from Posts where gameid == '" + gameid + "'  ", null);
@@ -303,12 +281,10 @@ public class DBHandler {
 
             }
             while (cursor.moveToNext());
-            check.close();
+
             cursor.close();
         }
-
-
-
+        check.close();
         return postlist;
     }
 
@@ -331,10 +307,96 @@ public class DBHandler {
         }
         while(cursor.moveToNext());
 
-
-
-
+        cursor.close();
         return gamelist;
-
     }
+
+    public User getcurrentuser(int userid)
+    {
+        User user = new User();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        Cursor cursor;
+
+        cursor = db.rawQuery("select * from Users where Userid = '"+userid+"'",null);
+        cursor.moveToFirst();
+        user.setUsername(cursor.getString(1));
+        user.setDOB(cursor.getString(3));
+        user.setEmail(cursor.getString(4));
+
+        return user;
+    }
+
+    public int getuserpostcount(int userid)
+    {
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        int postcount=0;
+
+        Cursor cursor;
+
+        cursor = db.rawQuery("select count(userid) from Posts where userid = '"+userid+"'",null);
+        cursor.moveToFirst();
+        postcount = cursor.getInt(0);
+
+        return postcount;
+    }
+
+    public ArrayList<Post> getuserpostlist(int userid)
+    {
+        ArrayList<Post> postlist = new ArrayList<>();
+
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+
+        Cursor check;
+        check = db.rawQuery("select count(userid) from Posts where userid == '"+userid+"'",null);
+        check.moveToFirst();
+
+        if (check.getInt(0) > 0) {
+            Cursor cursor;
+
+            cursor = db.rawQuery("select * from Posts where userid == '" + userid + "'  ", null);
+            cursor.moveToFirst();
+
+            do {
+                Post post = new Post();
+                post.setPostId(cursor.getInt(0));
+                post.setUserId(cursor.getInt(1));
+                post.setGameId(cursor.getInt(2));
+                post.setTitle(cursor.getString(3));
+                post.setPostDate(cursor.getString(5));
+
+                postlist.add(post);
+
+            }
+            while (cursor.moveToNext());
+        }
+
+
+
+        return postlist;
+    }
+
+
+    public User getuserinformation(int userid)
+    {
+        User user = new User();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("select * from Users where userid = '"+userid+"'",null);
+        cursor.moveToFirst();
+        user.setUserid(userid);
+        user.setUsername(cursor.getString(1));
+        user.setPassword(cursor.getString(2));
+        user.setDOB(cursor.getString(3));
+        user.setEmail(cursor.getString(4));
+
+        return user;
+    }
+
+    public void edituserprofile(String username, String password, String email , int userid)
+    {
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        db.execSQL("update Users set username = '"+username+"' , password = '"+password+"', Email = '"+email+"' where Userid = '"+userid+"'");
+    }
+
 }

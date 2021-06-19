@@ -1,6 +1,7 @@
 package com.mcs_lec_project.gamicality;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,10 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Notifications");
+
         dbhandler = new DBHandler(this);
         Intent intent = getIntent();
         currentuser = intent.getIntExtra("userid",0);
@@ -31,22 +37,6 @@ public class NotificationActivity extends AppCompatActivity {
 
         RecyclerView rv_notification = findViewById(R.id.rv_notification);
         NotificationAdapter notificationAdapter = new NotificationAdapter();
-
-        // sample data
-//        Notification notification = new Notification();
-//        notification.setImageId(R.drawable.profile_picture1);
-//        notification.setContent("ruthless_kitty liked your reply!");
-//        notifications.add(notification);
-//
-//        Notification notification1 = new Notification();
-//        notification1.setImageId(R.drawable.profile_picture1);
-//        notification1.setContent("just_a_random_dude replied to your post your post!");
-//        notifications.add(notification1);
-//
-//        Notification notification2 = new Notification();
-//        notification2.setImageId(R.drawable.profile_picture1);
-//        notification2.setContent("Genshin Impact fan Club posted a new article!");
-//        notifications.add(notification2);
 
        // dividers
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
@@ -69,6 +59,7 @@ public class NotificationActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 notificationslist.remove(viewHolder.getAdapterPosition());
                 notificationAdapter.notifyDataSetChanged();
+                Toast.makeText(NotificationActivity.this, "Notification removed!", Toast.LENGTH_SHORT).show();
             }
         };
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(rv_notification);
@@ -77,7 +68,7 @@ public class NotificationActivity extends AppCompatActivity {
     // Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_list, menu);
+        getMenuInflater().inflate(R.menu.menu_main_list, menu);
         return true;
     }
 
@@ -85,14 +76,12 @@ public class NotificationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent();
         if(item.getItemId() == R.id.action_profile){
-            return true;
-        }else if(item.getItemId() == R.id.menu_home){
-            intent = new Intent(NotificationActivity.this, MainActivity.class);
-            intent.putExtra("userid",currentuser);
+            intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("userid", currentuser);
             startActivity(intent);
             return true;
-        }else if(item.getItemId() == R.id.menu_game_list){
-            intent = new Intent(NotificationActivity.this, GameListActivity.class);
+        }else if(item.getItemId() == R.id.menu_home){
+            intent = new Intent(this, GameListActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
             return true;
@@ -105,6 +94,11 @@ public class NotificationActivity extends AppCompatActivity {
             intent = new Intent(this, NotificationActivity.class);
             intent.putExtra("userid",currentuser);
             startActivity(intent);
+            return true;
+        }else if(item.getItemId() == R.id.menu_logout){
+            intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

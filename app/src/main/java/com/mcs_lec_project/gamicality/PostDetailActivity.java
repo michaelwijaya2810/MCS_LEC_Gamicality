@@ -2,12 +2,10 @@ package com.mcs_lec_project.gamicality;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,14 +34,14 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView tvReplyCount;
     private RecyclerView rvReplyList;
     private FloatingActionButton fabReply;
-    Post post;
-    Game game;
-    User user;
+
+    private Post post;
     int currentuserid;
     int postid;
     DBHandler dbhandler;
     ArrayList<ReplyPost> replylist;
     ReplyAdapter adapter;
+    Game game;
     public PostDetailActivity() {
     }
 
@@ -64,28 +62,28 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 
         replylist = dbhandler.getreplylist(postid);
 
-//        get Post object from database
-          post = dbhandler.getpost(postid);
+//      get Post object from database
+        post = dbhandler.getpost(postid);
 
-//        get game object referenced from gameid in post
-          game = dbhandler.getgamefrompost(post.getGameId());
+//      get game object referenced from gameid in post
+        game = dbhandler.getgamefrompost(post.getGameId());
 
-//        get post's author user from Post's UserID FK??
-          user = dbhandler.getauthorfrompost(post.getUserId());
+//      get post's author user from Post's UserID FK??
+        User user = dbhandler.getauthorfrompost(post.getUserId());
 
-//        concat username with post date
+//      concat username with post date
         tvUsernameDate.setText(user.getUsername()+ " - " + post.getPostDate());
 
-//        get game title from post's game ID?? (yes from game object that referenced from post)
+//      get game title from post's game ID?? (yes from game object that referenced from post)
         tvGameTitle.setText(game.getTitle());
 
-//        get post title from post ()
+//      get post title from post ()
         tvPostTitle.setText(post.getTitle());
 
-//        get post body from post
+//      get post body from post
         tvPostBody.setText(post.getBody());
 
-//        get reply count from post's reply arraylist.size
+//      get reply count from post's reply arraylist.size
         if(replylist.size()>=1)
         {
             tvReplyCount.setText(String.valueOf(replylist.size()));
@@ -106,7 +104,16 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.post_menu_list, menu);
+        getMenuInflater().inflate(R.menu.menu_post_list, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(currentuserid == post.getUserId()){
+            menu.findItem(R.id.post_menu_remove).setVisible(true);
+        }
         return true;
     }
 
@@ -118,10 +125,13 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
             return true;
         }else if(item.getItemId() == R.id.post_menu_bookmark){
 //            Add post to user's bookmark database
-            dbhandler.addbookmark(currentuserid,post.getPostId(),this);
-
-            Toast.makeText(this, "Post bookmarked!", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Post bookmarked!");
+            if(dbhandler.addbookmark(currentuserid,post.getPostId(),this)){
+                Toast.makeText(this, "Post bookmarked!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "dbhandler.addbookmark return true");
+            }else{
+                Toast.makeText(this,"Post already bookmarked",Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "dbhandler.addbookmark return false");
+            }
             return true;
         }else if(item.getItemId() == R.id.post_menu_report){
             //Show dialog to report
@@ -147,6 +157,18 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
                     });
             dialogBuilder.show();
             return true;
+        }else if(item.getItemId() == R.id.post_menu_remove){
+            //call removepost(userid, postid) to remove post and all replies from postid
+            //remove post from postlist arraylist in PostIndexActivity
+            //notify data change to the recyclerview
+            //intent to PostIndexActivity
+            Intent intent = new Intent(this,PostIndexActivity.class);
+            intent.putExtra("userid", currentuserid);
+            intent.putExtra("gameid", game.getGameid());
+            dbhandler.removepost(currentuserid,postid);
+            Toast.makeText(this, "Post Removed!", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -155,7 +177,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         if(v.getId() == btnReply.getId() || v.getId() == fabReply.getId()){
             Intent intent = new Intent(this, ReplyActivity.class);
-            //send author info and post origin to replyacitivity
+            //send author info and post origin to replyActivity
             intent.putExtra("userid",currentuserid);
             intent.putExtra("postid",postid);
             startActivity(intent);
@@ -181,5 +203,20 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         rvReplyList = findViewById(R.id.rv_reply_list);
         fabReply = findViewById(R.id.fab_reply);
         Log.i(TAG, "Views ready!");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,PostIndexActivity.class);
+        intent.putExtra("userid",currentuserid);
+        intent.putExtra("gameid",game.getGameid());
+        startActivity(intent);
+        finish();
     }
 }

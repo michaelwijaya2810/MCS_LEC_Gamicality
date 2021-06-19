@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollViewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/background_art"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:src="@drawable/background_art"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:layout_marginTop="32dp"
+                app:srcCompat="@drawable/avatar_icon"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/profilename1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                android:text="Username"
+                android:textSize="20sp"
+                android:fontFamily="@font/opensansbold"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/imageView5"/>
+
+            <TextView
+                android:id="@+id/postcount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="Post Count"
+                android:textSize="14sp"
+                android:fontFamily="@font/opensansregular"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/profilename1"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profilerecycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/background_art"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

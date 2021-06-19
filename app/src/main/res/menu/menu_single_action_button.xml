@@ -5,5 +5,11 @@
         android:id="@+id/menu_btn_post"
         android:title="Post"
         app:showAsAction="always"
-        />
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_btn_edit_profile"
+        android:title="Edit Profile"
+        android:icon="@drawable/edit_icon"
+        app:showAsAction="always"
+        android:visible="false" />
 </menu>

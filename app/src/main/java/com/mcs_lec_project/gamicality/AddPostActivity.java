@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -30,19 +29,23 @@ public class AddPostActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.cancel_icon);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("");
+        actionBar.setTitle("Add New Post");
 
         etTitle = findViewById(R.id.et_title);
         etBody = findViewById(R.id.et_body);
 
         //get intent from game selected for gameid
         intent = getIntent();
+        //menunggu intent dari userid dan game id dari home_activity
+        userid = intent.getIntExtra("userid",0);
+        gameid = intent.getIntExtra("gameid",0);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_post_button, menu);
+        getMenuInflater().inflate(R.menu.menu_single_action_button, menu);
+        menu.findItem(R.id.menu_btn_post).setVisible(true);
         return true;
     }
 
@@ -55,10 +58,6 @@ public class AddPostActivity extends AppCompatActivity {
             if(!title.isEmpty()){
                 if(!body.isEmpty()){
 //                    get the author's info
-
-                    //menunggu intent dari userid dan game id dari home_activity
-                    userid = intent.getIntExtra("userid",0);
-                    gameid = intent.getIntExtra("gameid",0);
 
 
 //                    insert new post to DB
@@ -79,6 +78,12 @@ public class AddPostActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
